@@ -1,0 +1,123 @@
+.footer {
+  margin-top: var(--space-24);
+  padding-block: var(--space-16) var(--space-8);
+  background: var(--color-surface-1);
+  border-top: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.footerInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  position: relative;
+  z-index: 1;
+}
+
+.footerTop {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-12);
+}
+
+.brand {
+  max-width: 320px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-4);
+}
+
+.logoIcon {
+  color: var(--color-text);
+}
+
+.logoAccent {
+  color: var(--color-primary);
+}
+
+.tagline {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-12);
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.linkTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.linkGroup a {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  transition: color var(--duration-fast) var(--ease-fluid);
+}
+
+.linkGroup a:hover {
+  color: var(--color-text);
+}
+
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+.copyright {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.socials a {
+  color: var(--color-text-secondary);
+  transition: transform var(--duration-fast) var(--ease-spring), color var(--duration-fast) var(--ease-fluid);
+}
+
+.socials a:hover {
+  color: var(--color-text);
+  transform: scale(1.1) translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .footerTop {
+    flex-direction: column;
+  }
+  .linksGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+  .footerBottom {
+    flex-direction: column-reverse;
+    gap: var(--space-4);
+    text-align: center;
+  }
+}

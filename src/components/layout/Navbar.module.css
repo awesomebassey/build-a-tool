@@ -14,7 +14,7 @@
 .nav {
   pointer-events: auto;
   width: 100%;
-  max-width: 800px;
+  max-width: var(--max-width);
   height: 56px;
   background: var(--color-surface-2);
   backdrop-filter: blur(24px) saturate(180%);
@@ -173,6 +173,28 @@
 .mobileMenuOpen {
   opacity: 1;
   pointer-events: auto;
+}
+
+.mobileMenuCloseBtn {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.mobileMenuCloseBtn:hover {
+  background: var(--color-surface-3);
+  transform: scale(1.05);
 }
 
 .mobileMenuLinks {

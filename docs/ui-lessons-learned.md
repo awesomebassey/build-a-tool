@@ -39,5 +39,32 @@ This document serves as the permanent institutional memory for `@agency-luxury-u
   - Replaced glass blur color in Navbar mobile overlay to an opaque solid background for maximum contrast.
   - Re-introduced the global `.tabs` and `.tab` classes with `webkit-overflow-scrolling: touch`.
   - Adjusted mobile margins for `login.module.css` and `workspace.module.css`.
-  - Added padding spacing to Action Items across the app to hit the 44px touch target rules.
 * **Result**: Next.js production rebuild passed. Mobile viewports are pristine and touch-friendly.
+
+### Sweep 3 (Mobile Spacing & Glass Refinement - Mar 12, 2026)
+* **Status**: Completed
+* **Issues Found (via User Feedback & Secondary Audit)**:
+  - Landing page Hero title (`<h1 />`) overflowed on <375px screens.
+  - Auth "Back" link crowded the page-edge on mobile.
+  - Idea Submission `<input />` fields lacked the luxury Liquid Glass styling.
+  - Bookings mentor list dividers lacked sufficient contrast on mobile screens, blending into the background.
+  - Global edge padding on `<768px` felt slightly cramped (was `1rem`, needed `1.5rem`).
+* **Fixes Applied**:
+  - Implemented `clamp(2.5rem, 8vw, 3.5rem)` for fluid hero typography.
+  - Increased `.container` horizontal `padding-inline` globally from `var(--space-4)` to `var(--space-6)` (24px) for premium whitespace.
+  - Upgraded raw form `<input />`s to frosted `.liquidInputArea`-style containers.
+  - Added responsive `.statCard:hover` and padding tweaks to the Mentors grid.
+  - Boosted `.mentorOption` border contrast to `var(--color-border-light)`.
+* **Result**: All screens now enforce an uncompromising Apple-tier Liquid Glass aesthetic across all viewport sizes.
+
+### Sweep 4 (User-Triggered Fixes - Mar 12, 2026)
+* **Status**: Completed
+* **Issues Found (via User Feedback)**:
+  - Mobile hamburger menu overlay lacked a distinct, explicit "Close" (X) button, forcing users to click links to escape.
+  - Overall mobile font sizes (`--text-3xl` through `--text-6xl`) were still too large and dominating small screens.
+  - Desktop `Navbar` was detached from the main page grid width, causing header misalignment with page content boundaries.
+* **Fixes Applied**:
+  - Injected an absolute-positioned `<X>` Phosphor icon button (`.mobileMenuCloseBtn`) into `Navbar.tsx` overlay.
+  - Scaled down the global typography tokens via `@media (max-width: 768px)` in `globals.css` (e.g. `--text-6xl` from `3.5rem` down to `3rem`).
+  - Adjusted `.nav` to `max-width: var(--max-width)` to enforce perfect horizontal alignment with `.container` page content.
+* **Result**: Complete layout parity on desktop and refined typographic hierarchy on narrow viewports.

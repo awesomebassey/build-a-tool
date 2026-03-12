@@ -104,9 +104,9 @@
   font-size: var(--text-xl);
   color: var(--color-text-secondary);
   line-height: var(--leading-relaxed);
-  max-width: 600px;
+  max-width: 710px;
   margin-inline: auto;
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-12);
   animation: fade-in-up 0.7s var(--ease-spring) 200ms both;
 }
 
@@ -627,7 +627,8 @@
 
 /* Responsive Overrides */
 @media (max-width: 768px) {
-  .heroTitle { font-size: 3.5rem; }
+  .heroTitle { font-size: clamp(2.5rem, 8vw, 3.5rem); letter-spacing: -0.03em; }
+  .heroSubtitle { font-size: var(--text-lg); margin-bottom: var(--space-8); padding-inline: var(--space-4); }
   .liquidInputArea { flex-direction: column; border-radius: var(--radius-2xl); padding: var(--space-4); gap: var(--space-4); }
   .liquidInput { padding: var(--space-2) 0; text-align: center; }
   .liquidSubmit { width: 100%; justify-content: center; }

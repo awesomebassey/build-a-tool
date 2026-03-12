@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Wrench, ArrowUpRight, List } from "@phosphor-icons/react";
+import { Wrench, ArrowUpRight, List, X } from "@phosphor-icons/react";
 import styles from "./Navbar.module.css";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -68,6 +68,13 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             <div className={`${styles.mobileMenuOverlay} ${isMobileMenuOpen ? styles.mobileMenuOpen : ""}`}>
+                <button
+                    className={styles.mobileMenuCloseBtn}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    aria-label="Close Menu"
+                >
+                    <X size={32} weight="light" />
+                </button>
                 <div className={styles.mobileMenuLinks}>
                     {NAV_LINKS.map((link) => (
                         <Link

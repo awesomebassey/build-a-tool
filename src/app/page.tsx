@@ -5,69 +5,52 @@ import {
   Lightbulb,
   TrendUp,
   ArrowRight,
-  Robot,
   Play,
   Quotes,
   Users,
   Rocket,
   Handshake,
-  Trophy,
   Lightning,
   ShieldCheck,
   Star,
 } from "@phosphor-icons/react";
+import { m, useMotionValue, useTransform, useInView } from "motion/react";
 import styles from "./page.module.css";
 import Navbar from "@/components/layout/Navbar";
-import { useEffect, useState, useRef, useCallback } from "react";
+import TextReveal from "@/components/ui/TextReveal";
+import GlowCard from "@/components/ui/GlowCard";
+import { useEffect, useState, useRef } from "react";
 
-/* ── Scroll Reveal Hook ── */
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+/* ── Motion Presets ── */
+const EASE_FLUID = [0.16, 1, 0.3, 1] as const;
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.disconnect(); } },
-      { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
 
-  return { ref, isVisible };
-}
+const stagger = {
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
-/* ── Animated Counter ── */
+/* ── Animated Counter (uses InView from motion) ── */
 function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
+  const inView = useInView(ref, { once: true, margin: "-20px" });
 
   useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const duration = 1500;
-          const startTime = performance.now();
-          const animate = (now: number) => {
-            const progress = Math.min((now - startTime) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-            setCount(Math.floor(eased * end));
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [end]);
+    if (!inView) return;
+    const duration = 1500;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * end));
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }, [inView, end]);
 
   return <span ref={ref}>{count}{suffix}</span>;
 }
@@ -123,7 +106,7 @@ const FEATURED_MENTORS = [
     bio: "10+ years building fintech products for Nigerian startups. Specialist in React, Node, and mobile-first architecture.",
     rating: 4.9,
     sessions: 84,
-    rate: "₦15,000",
+    rate: "\u20a615,000",
   },
   {
     name: "Aisha Muhammad",
@@ -132,7 +115,7 @@ const FEATURED_MENTORS = [
     bio: "Former lead designer at a Top Nigerian bank. Passionate about making complex tools feel simple for everyday Nigerians.",
     rating: 4.8,
     sessions: 62,
-    rate: "₦12,000",
+    rate: "\u20a612,000",
   },
   {
     name: "Oluwaseun Adeyemi",
@@ -141,7 +124,7 @@ const FEATURED_MENTORS = [
     bio: "Built payment infrastructure serving millions of transactions. Expert in scalable systems and API design.",
     rating: 5.0,
     sessions: 47,
-    rate: "₦20,000",
+    rate: "\u20a620,000",
   },
   {
     name: "Nneka Okafor",
@@ -150,20 +133,34 @@ const FEATURED_MENTORS = [
     bio: "Shipped 12+ apps on Android and iOS. Focused on building tools that work flawlessly on low-end devices.",
     rating: 4.7,
     sessions: 56,
-    rate: "₦18,000",
+    rate: "\u20a618,000",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    text: "The community voted for my idea on Tuesday. A mentor reached out that night. By Friday, I had a working prototype. This platform is the absolute truth.",
+    name: "Funke Dada",
+    initials: "FD",
+    role: "Logistics Founder, Lagos",
+  },
+  {
+    text: "I described my pharmacy stock alert idea in plain English. Two weeks later, it\u2019s a real app my customers use daily. No coding \u2014 just vision.",
+    name: "Chidi Okpara",
+    initials: "CO",
+    role: "Pharmacy Owner, Abuja",
+  },
+  {
+    text: "As a mentor, I love this platform. I get to help real Nigerian founders while the AI handles the heavy lifting. It\u2019s the future of building.",
+    name: "Amara Eze",
+    initials: "AE",
+    role: "Senior Developer & Mentor",
   },
 ];
 
 /* ── Page Component ── */
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false);
-  const statsReveal = useScrollReveal();
-  const howItWorksReveal = useScrollReveal();
-  const mentorsReveal = useScrollReveal();
-  const carouselReveal = useScrollReveal();
-  const testimonialReveal = useScrollReveal();
-  const ctaReveal = useScrollReveal();
-
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
 
@@ -176,34 +173,66 @@ export default function LandingPage() {
         <section className={styles.hero}>
           <div className={styles.haloGlow} />
           <div className={`container ${styles.heroContainer}`}>
-            <div className={styles.heroBadge}>
+            <m.div
+              className={styles.heroBadge}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE_FLUID }}
+            >
               <span className={styles.badgeDot} />
               Nigeria&apos;s safe vibecoding community
-            </div>
+            </m.div>
 
-            <h1 className={styles.heroTitle}>
+            <m.h1
+              className={styles.heroTitle}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE_FLUID, delay: 0.1 }}
+            >
               Turn your wildest ideas
               <br />
               into <span className={styles.textHighlight}>real tools.</span>
-            </h1>
+            </m.h1>
 
-            <p className={styles.heroSubtitle}>
-              With expert human mentors and AI by your side — non-technical builders finally ship with confidence.
-            </p>
+            <m.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <TextReveal
+                text="With expert human mentors and AI by your side — non-technical builders finally ship with confidence."
+                className={styles.heroSubtitle}
+                delay={300}
+              />
+            </m.div>
 
-            <div className={styles.heroCtas}>
-              <Link href="/ideas/new" className={styles.ctaPrimary}>
-                <Lightbulb size={20} weight="duotone" />
-                Submit Your Idea
-                <ArrowRight size={16} weight="bold" />
-              </Link>
-              <Link href="/feed" className={styles.ctaGhost}>
-                Browse Community Tools
-              </Link>
-            </div>
+            <m.div
+              className={styles.heroCtas}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: EASE_FLUID, delay: 0.3 }}
+            >
+              <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/ideas/new" className={styles.ctaPrimary}>
+                  <Lightbulb size={20} weight="duotone" />
+                  Submit Your Idea
+                  <ArrowRight size={16} weight="bold" />
+                </Link>
+              </m.div>
+              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/feed" className={styles.ctaGhost}>
+                  Browse Community Tools
+                </Link>
+              </m.div>
+            </m.div>
 
             {/* Simulated Workspace Window */}
-            <div className={styles.heroVisual}>
+            <m.div
+              className={styles.heroVisual}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: EASE_FLUID, delay: 0.4 }}
+            >
               <div className={styles.mockupWindow}>
                 <div className={styles.mockupHeader}>
                   <div className={styles.mockupDots}>
@@ -238,32 +267,40 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </m.div>
           </div>
         </section>
 
         {/* ──── SOCIAL PROOF BAR ──── */}
-        <section
-          ref={statsReveal.ref}
-          className={`${styles.statsSection} ${statsReveal.isVisible ? styles.revealed : ""}`}
+        <m.section
+          className={styles.statsSection}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
-          <div className={`container ${styles.statsBar}`}>
+          <m.div className={`container ${styles.statsBar}`} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             {STATS.map((stat, i) => (
-              <div key={i} className={styles.statItem} style={{ animationDelay: `${i * 100}ms` }}>
+              <m.div key={i} className={styles.statItem} variants={fadeUp} transition={{ duration: 0.5, ease: EASE_FLUID }}>
                 <span className={styles.statValue}>
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </span>
                 <span className={styles.statLabel}>{stat.label}</span>
-              </div>
+              </m.div>
             ))}
-          </div>
-        </section>
+          </m.div>
+        </m.section>
 
         {/* ──── HOW IT WORKS ──── */}
-        <section
+        <m.section
           id="how-it-works"
-          ref={howItWorksReveal.ref}
-          className={`${styles.howItWorks} ${howItWorksReveal.isVisible ? styles.revealed : ""}`}
+          className={styles.howItWorks}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
             <div className={styles.storyHeader}>
@@ -277,31 +314,36 @@ export default function LandingPage() {
               <div className={styles.timelineLine}>
                 <div className={styles.timelineGlow} />
               </div>
-              <div className={styles.timelineSteps}>
+              <m.div className={styles.timelineSteps} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
                 {HOW_IT_WORKS_STEPS.map((step, i) => (
-                  <div
+                  <m.div
                     key={i}
                     className={styles.timelineStep}
-                    style={{ animationDelay: `${i * 150}ms` }}
+                    variants={fadeUp}
+                    transition={{ duration: 0.5, ease: EASE_FLUID }}
                   >
-                    <div className={styles.timelineIconWrapper}>
+                    <m.div className={styles.timelineIconWrapper} whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
                       <div className={styles.timelineIcon}>{step.icon}</div>
-                    </div>
+                    </m.div>
                     <div className={styles.timelineContent}>
                       <h3 className={styles.stepTitle}>{step.title}</h3>
                       <p className={styles.stepDesc}>{step.description}</p>
                     </div>
-                  </div>
+                  </m.div>
                 ))}
-              </div>
+              </m.div>
             </div>
           </div>
-        </section>
+        </m.section>
 
         {/* ──── MEET OUR MENTORS ──── */}
-        <section
-          ref={mentorsReveal.ref}
-          className={`${styles.mentorsSection} ${mentorsReveal.isVisible ? styles.revealed : ""}`}
+        <m.section
+          className={styles.mentorsSection}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
             <div className={styles.storyHeader}>
@@ -311,45 +353,55 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className={styles.mentorsGrid}>
+            <m.div className={styles.mentorsGrid} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               {FEATURED_MENTORS.map((mentor, i) => (
-                <div
-                  key={i}
-                  className={styles.mentorCard}
-                  style={{ animationDelay: `${i * 100}ms` }}
-                >
-                  <div className={styles.mentorCardTop}>
-                    <div className={styles.mentorAvatar}>{mentor.initials}</div>
-                    <div className={styles.mentorInfo}>
-                      <h4 className={styles.mentorName}>{mentor.name}</h4>
-                      <span className={styles.mentorRole}>{mentor.role}</span>
+                <GlowCard key={i} className={styles.mentorCard}>
+                  <m.div
+                    variants={fadeUp}
+                    transition={{ duration: 0.5, ease: EASE_FLUID }}
+                    whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)", position: "relative", zIndex: 2 }}
+                  >
+                    <div className={styles.mentorCardTop}>
+                      <div className={styles.mentorAvatar}>{mentor.initials}</div>
+                      <div className={styles.mentorInfo}>
+                        <h4 className={styles.mentorName}>{mentor.name}</h4>
+                        <span className={styles.mentorRole}>{mentor.role}</span>
+                      </div>
                     </div>
-                  </div>
-                  <p className={styles.mentorBio}>{mentor.bio}</p>
-                  <div className={styles.mentorStats}>
-                    <span><Star size={14} weight="fill" color="var(--color-gold)" /> {mentor.rating}</span>
-                    <span>{mentor.sessions} sessions</span>
-                    <span className={styles.mentorRate}>{mentor.rate}/hr</span>
-                  </div>
-                  <Link href="/bookings" className={styles.mentorCta}>
-                    Book Session <ArrowRight size={14} weight="bold" />
-                  </Link>
-                </div>
+                    <p className={styles.mentorBio}>{mentor.bio}</p>
+                    <div className={styles.mentorStats}>
+                      <span><Star size={14} weight="fill" color="var(--color-gold)" /> {mentor.rating}</span>
+                      <span>{mentor.sessions} sessions</span>
+                      <span className={styles.mentorRate}>{mentor.rate}/hr</span>
+                    </div>
+                    <Link href="/bookings" className={styles.mentorCta}>
+                      Book Session <ArrowRight size={14} weight="bold" />
+                    </Link>
+                  </m.div>
+                </GlowCard>
               ))}
-            </div>
+            </m.div>
 
             <div className={styles.mentorsFooter}>
-              <Link href="/mentors" className={styles.ctaGhost}>
-                View All Mentors <ArrowRight size={14} weight="bold" />
-              </Link>
+              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/mentors" className={styles.ctaGhost}>
+                  View All Mentors <ArrowRight size={14} weight="bold" />
+                </Link>
+              </m.div>
             </div>
           </div>
-        </section>
+        </m.section>
 
         {/* ──── FEATURED CAROUSEL ──── */}
-        <section
-          ref={carouselReveal.ref}
-          className={`${styles.featuredSection} ${carouselReveal.isVisible ? styles.revealed : ""}`}
+        <m.section
+          className={styles.featuredSection}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
             <div className={styles.storyHeader}>
@@ -363,7 +415,13 @@ export default function LandingPage() {
           <div className={styles.carouselWrapper}>
             <div className={styles.carouselTrack}>
               {[...FEATURED_TOOLS, ...FEATURED_TOOLS].map((tool, i) => (
-                <div key={i} className={styles.toolCard}>
+                <m.div
+                  key={i}
+                  className={styles.toolCard}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.3, ease: EASE_FLUID }}
+                >
                   <div className={styles.toolHeader}>
                     <span className={styles.toolCategory}>{tool.category}</span>
                     <div className={styles.toolLikes}>
@@ -375,16 +433,20 @@ export default function LandingPage() {
                   <button className={styles.toolAction}>
                     <Play weight="fill" /> Preview App
                   </button>
-                </div>
+                </m.div>
               ))}
             </div>
           </div>
-        </section>
+        </m.section>
 
         {/* ──── TESTIMONIALS ──── */}
-        <section
-          ref={testimonialReveal.ref}
-          className={`${styles.testimonialSection} ${testimonialReveal.isVisible ? styles.revealed : ""}`}
+        <m.section
+          className={styles.testimonialSection}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
             <div className={styles.storyHeader}>
@@ -394,28 +456,15 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className={styles.testimonialsGrid}>
-              {[
-                {
-                  text: "The community voted for my idea on Tuesday. A mentor reached out that night. By Friday, I had a working prototype. This platform is the absolute truth.",
-                  name: "Funke Dada",
-                  initials: "FD",
-                  role: "Logistics Founder, Lagos",
-                },
-                {
-                  text: "I described my pharmacy stock alert idea in plain English. Two weeks later, it's a real app my customers use daily. No coding — just vision.",
-                  name: "Chidi Okpara",
-                  initials: "CO",
-                  role: "Pharmacy Owner, Abuja",
-                },
-                {
-                  text: "As a mentor, I love this platform. I get to help real Nigerian founders while the AI handles the heavy lifting. It's the future of building.",
-                  name: "Amara Eze",
-                  initials: "AE",
-                  role: "Senior Developer & Mentor",
-                },
-              ].map((t, i) => (
-                <div key={i} className={styles.testimonialCard} style={{ animationDelay: `${i * 100}ms` }}>
+            <m.div className={styles.testimonialsGrid} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+              {TESTIMONIALS.map((t, i) => (
+                <m.div
+                  key={i}
+                  className={styles.testimonialCard}
+                  variants={fadeUp}
+                  transition={{ duration: 0.5, ease: EASE_FLUID }}
+                  whileHover={{ y: -4, transition: { duration: 0.3 } }}
+                >
                   <Quotes size={32} weight="fill" className={styles.testimonialQuoteIcon} />
                   <p className={styles.testimonialText}>&quot;{t.text}&quot;</p>
                   <div className={styles.testimonialAuthor}>
@@ -425,16 +474,20 @@ export default function LandingPage() {
                       <span>{t.role}</span>
                     </div>
                   </div>
-                </div>
+                </m.div>
               ))}
-            </div>
+            </m.div>
           </div>
-        </section>
+        </m.section>
 
         {/* ──── FINAL CTA ──── */}
-        <section
-          ref={ctaReveal.ref}
-          className={`${styles.finalCta} ${ctaReveal.isVisible ? styles.revealed : ""}`}
+        <m.section
+          className={styles.finalCta}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.7, ease: EASE_FLUID }}
         >
           <div className={`container ${styles.finalCtaInner}`}>
             <h2 className={styles.finalCtaTitle}>
@@ -444,14 +497,18 @@ export default function LandingPage() {
               Join hundreds of Nigerian builders who stopped waiting and started shipping.
             </p>
             <div className={styles.heroCtas}>
-              <Link href="/ideas/new" className={styles.ctaPrimary}>
-                <Lightbulb size={20} weight="duotone" />
-                Start Building Today
-                <ArrowRight size={16} weight="bold" />
-              </Link>
-              <Link href="/feed" className={styles.ctaGhost}>
-                Explore the Community
-              </Link>
+              <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/ideas/new" className={styles.ctaPrimary}>
+                  <Lightbulb size={20} weight="duotone" />
+                  Start Building Today
+                  <ArrowRight size={16} weight="bold" />
+                </Link>
+              </m.div>
+              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/feed" className={styles.ctaGhost}>
+                  Explore the Community
+                </Link>
+              </m.div>
             </div>
             <div className={styles.trustBadges}>
               <div className={styles.trustBadge}>
@@ -468,7 +525,7 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </section>
+        </m.section>
 
       </main>
     </div>

@@ -253,10 +253,10 @@ input, textarea, select { font-family: inherit; font-size: inherit; color: inher
 
 .card-glass {
   background: var(--color-surface-glass);
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--color-border-light);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.15);
   border-radius: var(--radius-2xl);
   padding: var(--space-8);
   position: relative;
@@ -273,6 +273,62 @@ input, textarea, select { font-family: inherit; font-size: inherit; color: inher
 }
 .dark .card-glass::before {
   opacity: 0.1;
+}
+
+/* Liquid Glass — Apple-inspired dynamic translucent surfaces */
+.liquid-glass {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(60px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter: blur(60px) saturate(200%) brightness(1.05);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.02);
+  position: relative;
+  overflow: hidden;
+  transition: backdrop-filter 0.4s var(--ease-fluid), box-shadow 0.4s var(--ease-fluid);
+}
+
+/* Specular top-edge highlight */
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Inner refraction gradient */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(255,107,53,0.02) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark .liquid-glass {
+  backdrop-filter: blur(60px) saturate(180%) brightness(0.95);
+  -webkit-backdrop-filter: blur(60px) saturate(180%) brightness(0.95);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.dark .liquid-glass::before {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+
+.dark .liquid-glass::after {
+  background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,107,53,0.02) 100%);
 }
 
 /* Inputs */

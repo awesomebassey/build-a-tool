@@ -30,31 +30,7 @@
   line-height: var(--leading-relaxed);
 }
 
-/* ---- SCROLL REVEAL SYSTEM ---- */
-/* Sections start invisible but transition to visible when `.revealed` is added by JS.
-   Fallback: if JS doesn't add the class within 1s, CSS animation-fill makes them visible. */
-.statsSection,
-.howItWorks,
-.featuredSection,
-.testimonialSection,
-.mentorsSection,
-.finalCta {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: reveal-fallback 0.01ms 1.2s forwards;
-  transition: opacity 0.7s var(--ease-fluid), transform 0.7s var(--ease-fluid);
-}
-
-/* Fallback animation: ensures sections become visible even if JS fails */
-@keyframes reveal-fallback {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.revealed {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  animation: none;
-}
+/* Motion handles all scroll reveal animations declaratively via whileInView */
 
 /* ---- HERO SECTION ---- */
 .hero {
@@ -343,12 +319,12 @@
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-6);
   padding: var(--space-8) var(--space-6);
-  background: var(--color-surface-1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(50px) saturate(180%);
+  -webkit-backdrop-filter: blur(50px) saturate(180%);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
 .statItem {
@@ -534,21 +510,32 @@
 .toolCard {
   width: 320px;
   background: var(--color-surface-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease;
-  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.12);
   cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Specular top highlight */
+.toolCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  pointer-events: none;
 }
 
 .toolCard:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), 0 0 32px var(--color-primary-glow);
   border-color: var(--color-border-focus);
 }
 
@@ -698,20 +685,31 @@
 
 .testimonialCard {
   background: var(--color-surface-glass);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-2xl);
   padding: var(--space-8);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  transition: all 0.3s var(--ease-fluid);
+  transition: box-shadow 0.3s var(--ease-fluid), border-color 0.3s ease;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonialCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  pointer-events: none;
 }
 
 .testimonialCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), 0 0 24px var(--color-primary-glow);
 }
 
 .testimonialQuoteIcon {
@@ -813,20 +811,31 @@
 
 .mentorCard {
   background: var(--color-surface-glass);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(50px) saturate(200%);
+  -webkit-backdrop-filter: blur(50px) saturate(200%);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  transition: all 0.3s var(--ease-fluid);
-  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s var(--ease-fluid), border-color 0.3s ease;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Specular top highlight on mentor card */
+.mentorCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  pointer-events: none;
 }
 
 .mentorCard:hover {
-  transform: translateY(-6px);
   box-shadow: var(--shadow-md), 0 0 40px var(--color-primary-glow);
   border-color: var(--color-border-focus);
 }

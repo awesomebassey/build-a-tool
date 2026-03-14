@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Wrench, ArrowUpRight, List, X } from "@phosphor-icons/react";
+import { m, AnimatePresence } from "motion/react";
 import styles from "./Navbar.module.css";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -52,9 +53,11 @@ export default function Navbar() {
 
                     <div className={styles.navRight}>
                         <ThemeToggle />
-                        <Link href="/ideas/new" className={styles.ctaPill}>
-                            Submit Idea <ArrowUpRight size={14} weight="bold" />
-                        </Link>
+                        <m.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+                            <Link href="/ideas/new" className={styles.ctaPill}>
+                                Submit Idea <ArrowUpRight size={14} weight="bold" />
+                            </Link>
+                        </m.div>
                         <button
                             className={styles.mobileMenuBtn}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -66,31 +69,58 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`${styles.mobileMenuOverlay} ${isMobileMenuOpen ? styles.mobileMenuOpen : ""}`}>
-                <button
-                    className={styles.mobileMenuCloseBtn}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    aria-label="Close Menu"
-                >
-                    <X size={32} weight="light" />
-                </button>
-                <div className={styles.mobileMenuLinks}>
-                    {NAV_LINKS.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className={styles.mobileNavLink}
+            {/* Mobile Menu Overlay — animated with motion */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <m.div
+                        className={`${styles.mobileMenuOverlay} ${styles.mobileMenuOpen}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <m.button
+                            className={styles.mobileMenuCloseBtn}
                             onClick={() => setIsMobileMenuOpen(false)}
+                            aria-label="Close Menu"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                         >
-                            {link.label}
-                        </Link>
-                    ))}
-                    <Link href="/ideas/new" className="btn btn-primary btn-lg" style={{ marginTop: "var(--space-8)" }} onClick={() => setIsMobileMenuOpen(false)}>
-                        Submit Idea <ArrowUpRight size={16} weight="bold" />
-                    </Link>
-                </div>
-            </div>
+                            <X size={32} weight="light" />
+                        </m.button>
+                        <m.div
+                            className={styles.mobileMenuLinks}
+                            initial="hidden"
+                            animate="visible"
+                            variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+                        >
+                            {NAV_LINKS.map((link) => (
+                                <m.div
+                                    key={link.href}
+                                    variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                >
+                                    <Link
+                                        href={link.href}
+                                        className={styles.mobileNavLink}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </m.div>
+                            ))}
+                            <m.div
+                                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <Link href="/ideas/new" className="btn btn-primary btn-lg" style={{ marginTop: "var(--space-8)" }} onClick={() => setIsMobileMenuOpen(false)}>
+                                    Submit Idea <ArrowUpRight size={16} weight="bold" />
+                                </Link>
+                            </m.div>
+                        </m.div>
+                    </m.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

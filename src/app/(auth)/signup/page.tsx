@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Eye, EyeSlash, GoogleLogo, ArrowLeft, Lightbulb, Code, Wrench, Quotes } from "@phosphor-icons/react";
+import { EyeIcon, EyeSlashIcon, GoogleLogoIcon, ArrowLeftIcon, LightbulbIcon, CodeIcon, WrenchIcon, QuotesIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { m, AnimatePresence } from "motion/react";
+import { m } from "motion/react";
 
 const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -44,14 +44,14 @@ export default function SignupPage() {
                         href="/"
                         className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-text-secondary)] transition-all duration-200 hover:-translate-x-1 hover:text-foreground"
                     >
-                        <ArrowLeft size={18} weight="bold" /> Back to home
+                        <ArrowLeftIcon size={18} weight="bold" /> Back to home
                     </Link>
                 </m.div>
 
                 <div className="mx-auto w-full max-w-[420px]">
                     <m.div variants={fadeUp} className="mb-10 mt-4">
                         <Link href="/" className="mb-8 inline-flex items-center gap-2 font-heading text-xl font-bold tracking-tight">
-                            <Wrench size={24} weight="duotone" className="text-[var(--color-primary)]" />
+                            <WrenchIcon size={24} weight="duotone" className="text-[var(--color-primary)]" />
                             <span>Build<span className="text-[var(--color-primary)]">A</span>Tool</span>
                         </Link>
                         <h1 className="mb-3 font-heading text-4xl font-semibold tracking-tight text-foreground lg:text-5xl">
@@ -73,7 +73,7 @@ export default function SignupPage() {
                                     onClick={() => setRole("founder")}
                                     className="h-14 flex-1 gap-2"
                                 >
-                                    <Lightbulb size={20} weight={role === "founder" ? "fill" : "duotone"} /> Submit Ideas
+                                    <LightbulbIcon size={20} weight={role === "founder" ? "fill" : "duotone"} /> Submit Ideas
                                 </Button>
                                 <Button
                                     type="button"
@@ -85,7 +85,7 @@ export default function SignupPage() {
                                             : ""
                                     }`}
                                 >
-                                    <Code size={20} weight={role === "mentor" ? "fill" : "duotone"} /> Be a Mentor
+                                    <CodeIcon size={20} weight={role === "mentor" ? "fill" : "duotone"} /> Be a Mentor
                                 </Button>
                             </div>
                         </div>
@@ -134,9 +134,9 @@ export default function SignupPage() {
                                     aria-label="Toggle password visibility"
                                 >
                                     {showPassword ? (
-                                        <EyeSlash size={22} weight="duotone" />
+                                        <EyeSlashIcon size={22} weight="duotone" />
                                     ) : (
-                                        <Eye size={22} weight="duotone" />
+                                        <EyeIcon size={22} weight="duotone" />
                                     )}
                                 </button>
                             </div>
@@ -151,7 +151,7 @@ export default function SignupPage() {
                         </div>
 
                         <Button type="button" variant="outline" size="lg" className="h-14 w-full gap-3 font-semibold">
-                            <GoogleLogo size={20} weight="bold" className="text-[#4285F4]" /> Continue with Google
+                            <GoogleLogoIcon size={20} weight="bold" className="text-[#4285F4]" /> Continue with Google
                         </Button>
                     </m.form>
 
@@ -180,7 +180,7 @@ export default function SignupPage() {
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="liquid-glass rounded-3xl p-12 shadow-[0_24px_80px_rgba(0,0,0,0.1)]"
                     >
-                        <Quotes size={48} weight="fill" className="mb-8 rotate-180 opacity-20 text-[var(--color-accent)]" />
+                        <QuotesIcon size={48} weight="fill" className="mb-8 rotate-180 opacity-20 text-[var(--color-accent)]" />
                         <p className="mb-10 text-2xl font-medium leading-relaxed tracking-tight text-foreground">
                             &ldquo;The community voted for my idea. A mentor reached out the next day. Two weeks
                             later, I had a working prototype. This platform is the real deal.&rdquo;

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+
 import { useState } from "react";
-import { CalendarBlank, CheckCircle, QuestionMark, MagnifyingGlass, Robot, CreditCard, CaretRight, Info, CaretLeft, CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react";
+import { CalendarBlankIcon, CheckCircleIcon, QuestionMarkIcon, MagnifyingGlassIcon, RobotIcon, CreditCardIcon, CaretRightIcon, InfoIcon, CaretLeftIcon } from "@phosphor-icons/react";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -31,7 +31,7 @@ const MENTORS: Mentor[] = [
     { id: 3, name: "Oluwaseun A.", initials: "OA", role: "Backend Architect", rate: "₦20,000", rating: 5.0 },
     { id: 4, name: "Nneka Okafor", initials: "NO", role: "Mobile Developer", rate: "₦18,000", rating: 4.7 },
     { id: 5, name: "Yusuf Ibrahim", initials: "YI", role: "AI Specialist", rate: "₦25,000", rating: 4.9 },
-    { id: 6, name: "Folake Adeniyi", initials: "FA", role: "No-Code Expert", rate: "₦10,000", rating: 4.8 },
+    { id: 6, name: "Folake Adeniyi", initials: "FA", role: "No-CodeIcon Expert", rate: "₦10,000", rating: 4.8 },
 ];
 
 const generateSlots = (): TimeSlot[] => [
@@ -123,7 +123,7 @@ export default function BookingsPage() {
                     className="mb-20"
                 >
                     <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-primary)] text-white shadow-lg shadow-[var(--color-primary)]/20">
-                        <CalendarBlank size={32} weight="duotone" />
+                        <CalendarBlankIcon size={32} weight="duotone" />
                     </div>
                     <h1 className="font-heading text-5xl font-bold tracking-tight text-foreground md:text-7xl">
                         Book a 1:1 Session
@@ -176,7 +176,7 @@ export default function BookingsPage() {
                                                 selectedMentor === mentor.id ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
                                             }`}
                                         >
-                                            <CheckCircle size={24} weight="fill" className="text-[var(--color-primary)]" />
+                                            <CheckCircleIcon size={24} weight="fill" className="text-[var(--color-primary)]" />
                                         </div>
                                     </m.button>
                                 ))}
@@ -258,19 +258,19 @@ export default function BookingsPage() {
                                 {[
                                     {
                                         key: "1on1" as const,
-                                        icon: <QuestionMark size={20} weight="bold" />,
+                                        icon: <QuestionMarkIcon size={20} weight="bold" />,
                                         label: "1:1 Consultation",
                                         desc: "Discuss your idea and get advice",
                                     },
                                     {
                                         key: "review" as const,
-                                        icon: <MagnifyingGlass size={20} weight="bold" />,
+                                        icon: <MagnifyingGlassIcon size={20} weight="bold" />,
                                         label: "Check My Progress",
                                         desc: "Review what's been built so far",
                                     },
                                     {
                                         key: "workshop" as const,
-                                        icon: <Robot size={20} weight="bold" />,
+                                        icon: <RobotIcon size={20} weight="bold" />,
                                         label: "Development Session",
                                         desc: "Build together with AI agents live",
                                     },
@@ -345,7 +345,7 @@ export default function BookingsPage() {
                                                 {sessionType === "1on1"
                                                     ? "Consultation"
                                                     : sessionType === "review"
-                                                    ? "Code Review"
+                                                    ? "CodeIcon Review"
                                                     : "Live Build"}
                                             </span>
                                         </div>
@@ -384,11 +384,11 @@ export default function BookingsPage() {
                                                         animate={{ scale: 1 }}
                                                         className="flex items-center gap-2"
                                                     >
-                                                        <CheckCircle size={24} weight="fill" /> Session Confirmed
+                                                        <CheckCircleIcon size={24} weight="fill" /> Session Confirmed
                                                     </m.div>
                                                 ) : (
                                                     <>
-                                                        Proceed to Payment <CaretRight size={20} weight="bold" />
+                                                        Proceed to Payment <CaretRightIcon size={20} weight="bold" />
                                                     </>
                                                 )}
                                             </span>
@@ -401,7 +401,7 @@ export default function BookingsPage() {
                                         </Button>
 
                                         <div className="mt-6 flex items-center justify-center gap-3 rounded-2xl bg-[var(--color-surface-2)] px-5 py-4 text-[11px] font-bold uppercase tracking-widest text-muted-foreground opacity-40">
-                                            <CreditCard size={18} /> Secure via Paystack
+                                            <CreditCardIcon size={18} /> Secure via Paystack
                                         </div>
                                     </m.div>
                                 ) : (
@@ -412,7 +412,7 @@ export default function BookingsPage() {
                                         className="flex flex-col items-center justify-center gap-6 py-20 text-center"
                                     >
                                         <div className="flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[var(--color-surface-3)]">
-                                            <Info size={40} weight="duotone" className="opacity-20" />
+                                            <InfoIcon size={40} weight="duotone" className="opacity-20" />
                                         </div>
                                         <p className="max-w-[200px] text-sm font-bold uppercase tracking-widest opacity-30">
                                             Select a mentor to view booking summary.
@@ -435,7 +435,7 @@ export default function BookingsPage() {
                         className="fixed bottom-10 left-1/2 z-50 flex -translate-x-1/2 items-center gap-4 rounded-3xl border-2 border-[var(--color-primary)] bg-[var(--color-surface-glass)] px-8 py-5 text-[var(--color-primary)] shadow-2xl shadow-[var(--color-primary)]/20 backdrop-blur-xl"
                     >
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-primary)] text-white">
-                            <CheckCircle size={24} weight="fill" />
+                            <CheckCircleIcon size={24} weight="fill" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-sm font-black uppercase tracking-widest">Great Choice!</span>

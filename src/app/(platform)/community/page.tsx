@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Trophy, AirplaneTilt, ShoppingCart, RocketLaunch, Handshake, Lightbulb, ChartLineUp, Users, CaretUp, Lightning, ArrowUpRight } from "@phosphor-icons/react";
+import { TrophyIcon, AirplaneTiltIcon, ShoppingCartIcon, RocketLaunchIcon, HandshakeIcon, LightbulbIcon, ChartLineUpIcon, UsersIcon, CaretUpIcon, LightningIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { m, AnimatePresence } from "motion/react";
+import { m } from "motion/react";
 
 interface CommunityTool {
     id: number;
@@ -31,7 +31,7 @@ const TOOLS_OF_THE_MONTH: CommunityTool[] = [
         votes: 412,
         category: "Utility",
         status: "March Winner",
-        icon: <Lightning size={32} weight="duotone" />,
+        icon: <LightningIcon size={32} weight="duotone" />,
     },
     {
         id: 2,
@@ -42,7 +42,7 @@ const TOOLS_OF_THE_MONTH: CommunityTool[] = [
         votes: 356,
         category: "Productivity",
         status: "Runner-up",
-        icon: <AirplaneTilt size={32} weight="duotone" />,
+        icon: <AirplaneTiltIcon size={32} weight="duotone" />,
     },
     {
         id: 3,
@@ -53,7 +53,7 @@ const TOOLS_OF_THE_MONTH: CommunityTool[] = [
         votes: 298,
         category: "Commerce",
         status: "3rd Place",
-        icon: <ShoppingCart size={32} weight="duotone" />,
+        icon: <ShoppingCartIcon size={32} weight="duotone" />,
     },
 ];
 
@@ -66,11 +66,11 @@ const NOMINATIONS = [
 ];
 
 const RECENT_UPDATES = [
-    { icon: <RocketLaunch size={20} weight="duotone" />, text: "Generator Fuel Calculator shipped and went live!", time: "2 hours ago" },
-    { icon: <Trophy size={20} weight="duotone" />, text: "March voting period is now closed — results are in!", time: "5 hours ago" },
-    { icon: <Handshake size={20} weight="duotone" />, text: "Olumide K. got matched with mentor Yusuf Ibrahim", time: "1 day ago" },
-    { icon: <Lightbulb size={20} weight="duotone" />, text: "12 new ideas submitted this week", time: "2 days ago" },
-    { icon: <ChartLineUp size={20} weight="duotone" />, text: "Community hit 1,200 members!", time: "3 days ago" },
+    { icon: <RocketLaunchIcon size={20} weight="duotone" />, text: "Generator Fuel Calculator shipped and went live!", time: "2 hours ago" },
+    { icon: <TrophyIcon size={20} weight="duotone" />, text: "March voting period is now closed — results are in!", time: "5 hours ago" },
+    { icon: <HandshakeIcon size={20} weight="duotone" />, text: "Olumide K. got matched with mentor Yusuf Ibrahim", time: "1 day ago" },
+    { icon: <LightbulbIcon size={20} weight="duotone" />, text: "12 new ideas submitted this week", time: "2 days ago" },
+    { icon: <ChartLineUpIcon size={20} weight="duotone" />, text: "Community hit 1,200 members!", time: "3 days ago" },
 ];
 
 const container = {
@@ -113,7 +113,7 @@ export default function CommunityPage() {
                     className="mb-20 flex flex-col items-center text-center"
                 >
                     <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-[2rem] border border-[var(--color-border-light)] bg-[var(--color-surface-glass)] backdrop-blur-md shadow-inner">
-                        <Users size={40} weight="duotone" className="text-[var(--color-primary)]" />
+                        <UsersIcon size={40} weight="duotone" className="text-[var(--color-primary)]" />
                     </div>
                     <h1 className="font-heading mb-6 text-5xl font-bold tracking-tight text-foreground md:text-7xl">Community Hub</h1>
                     <p className="mx-auto max-w-[640px] text-xl leading-relaxed text-[var(--color-text-secondary)] opacity-80">
@@ -131,7 +131,7 @@ export default function CommunityPage() {
                     <div className="absolute -right-20 -top-20 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(230,126,34,0.08),transparent_70%)] transition-transform duration-1000 group-hover:scale-110" />
                     <div className="relative z-10 flex max-w-[700px] flex-col">
                         <Badge variant="outline" className="mb-8 h-auto self-start border-[var(--color-gold)]/20 bg-[var(--color-gold)]/10 py-1.5 px-5 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-gold)]">
-                            <Trophy size={16} weight="fill" className="mr-2" /> March Winner
+                            <TrophyIcon size={16} weight="fill" className="mr-2" /> March Winner
                         </Badge>
                         <h2 className="font-heading mb-6 flex items-center gap-6 text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl">
                             <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-primary)] text-white shadow-lg shadow-[var(--color-primary)]/20">
@@ -146,13 +146,13 @@ export default function CommunityPage() {
                                 <span className="text-[15px] font-bold text-foreground">by {TOOLS_OF_THE_MONTH[0].author}</span>
                             </div>
                             <div className="flex items-center gap-2 text-xl font-black tracking-tighter text-[var(--color-primary)]">
-                                <CaretUp size={24} weight="bold" /> {TOOLS_OF_THE_MONTH[0].votes}
+                                <CaretUpIcon size={24} weight="bold" /> {TOOLS_OF_THE_MONTH[0].votes}
                                 <span className="ml-1 text-[10px] font-bold uppercase tracking-widest opacity-40">votes</span>
                             </div>
                         </div>
                         <Button asChild size="lg" className="mt-10 h-16 self-start px-10 text-lg font-bold shadow-xl shadow-[var(--color-primary)]/20">
                             <Link href="/feed" className="flex items-center gap-3">
-                                Try It Now <ArrowUpRight size={20} weight="bold" />
+                                Try It Now <ArrowUpRightIcon size={20} weight="bold" />
                             </Link>
                         </Button>
                     </div>
@@ -176,7 +176,7 @@ export default function CommunityPage() {
                                                 : "border-[var(--color-border-light)] bg-[var(--color-surface-2)] text-foreground opacity-60"
                                             }`}>{tool.icon}</div>
                                             <Badge variant="outline" className={`h-6 border-none px-0 text-[10px] font-bold uppercase tracking-widest ${i === 0 ? "text-[#FFB800]" : "opacity-40"}`}>
-                                                {i === 0 && <Trophy size={14} weight="fill" className="mr-1 inline" />} {tool.status}
+                                                {i === 0 && <TrophyIcon size={14} weight="fill" className="mr-1 inline" />} {tool.status}
                                             </Badge>
                                         </div>
                                         <h3 className="mb-3 text-[18px] font-bold leading-tight text-foreground">{tool.title}</h3>
@@ -186,7 +186,7 @@ export default function CommunityPage() {
                                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-surface-3)] text-[10px] font-bold opacity-60">{tool.authorInitials}</div>
                                                 <span className="text-[13px] font-bold">{tool.author}</span>
                                             </div>
-                                            <span className="flex items-center gap-1 text-[16px] font-black text-[var(--color-primary)]"><CaretUp size={18} weight="bold" /> {tool.votes}</span>
+                                            <span className="flex items-center gap-1 text-[16px] font-black text-[var(--color-primary)]"><CaretUpIcon size={18} weight="bold" /> {tool.votes}</span>
                                         </div>
                                     </Card>
                                 ))}
@@ -224,7 +224,7 @@ export default function CommunityPage() {
                                             }`}
                                             onClick={() => handleVote(nom.id)}
                                         >
-                                            <CaretUp size={24} weight="bold" className={votedTools.has(nom.id) ? "animate-bounce" : ""} />
+                                            <CaretUpIcon size={24} weight="bold" className={votedTools.has(nom.id) ? "animate-bounce" : ""} />
                                             <span className="font-mono text-[15px] font-black">
                                                 {nom.votes + (votedTools.has(nom.id) ? 1 : 0)}
                                             </span>
@@ -279,7 +279,7 @@ export default function CommunityPage() {
                         {/* CTA */}
                         <Card className="flex flex-col items-center p-10 text-center border-none bg-gradient-to-br from-[#111] to-[#1a1a1a] text-white shadow-2xl">
                             <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-primary)] shadow-xl shadow-[var(--color-primary)]/20">
-                                <Lightbulb size={32} weight="duotone" />
+                                <LightbulbIcon size={32} weight="duotone" />
                             </div>
                             <h3 className="font-heading mb-4 text-2xl font-bold tracking-tight">Got a Tool Idea?</h3>
                             <p className="mb-8 text-[15px] font-medium opacity-60 leading-relaxed">Submit it and let the community vote it to life. Mentorship awaits.</p>

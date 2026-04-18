@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Star, CheckCircle, ChatCircle, Calendar, Users, RocketLaunch, Pulse } from "@phosphor-icons/react";
+import { StarIcon, CheckCircleIcon, ChatCircleIcon, CalendarIcon, UsersIcon, RocketLaunchIcon } from "@phosphor-icons/react";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +92,7 @@ const MENTORS: Mentor[] = [
         id: 6,
         name: "Folake Adeniyi",
         initials: "FA",
-        role: "No-Code & Low-Code Expert",
+        role: "No-CodeIcon & Low-CodeIcon Expert",
         bio: "Not everything needs custom code. I help you figure out the fastest path to your MVP — sometimes that's Bubble, sometimes it's vibecoding, sometimes both.",
         skills: ["Bubble", "Airtable", "Zapier", "Webflow"],
         sessionsCompleted: 56,
@@ -105,7 +105,7 @@ const MENTORS: Mentor[] = [
 
 const SKILL_FILTERS = ["All", "React", "Python", "AI/ML", "Flutter", "UI/UX", "Firebase", "Node.js"];
 
-import { m, AnimatePresence } from "motion/react";
+import { m } from "motion/react";
 import { Card } from "@/components/ui/card";
 
 const container = {
@@ -173,10 +173,10 @@ export default function MentorsPage() {
                     className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
                 >
                     {[
-                        { label: "Active Mentors", value: "48", icon: Users },
-                        { label: "Sessions This Month", value: "156", icon: ChatCircle },
-                        { label: "Avg Rating", value: "4.8", icon: Star, suffix: true },
-                        { label: "Tools Shipped", value: "53", icon: RocketLaunch },
+                        { label: "Active Mentors", value: "48", icon: UsersIcon },
+                        { label: "Sessions This Month", value: "156", icon: ChatCircleIcon },
+                        { label: "Avg Rating", value: "4.8", icon: StarIcon, suffix: true },
+                        { label: "Tools Shipped", value: "53", icon: RocketLaunchIcon },
                     ].map((stat, idx) => (
                         <m.div key={idx} variants={item}>
                             <Card className="liquid-glass group flex flex-col justify-center p-8 transition-all duration-500 hover:shadow-[var(--shadow-md),0_0_40px_var(--color-primary-glow)]">
@@ -185,7 +185,7 @@ export default function MentorsPage() {
                                 </div>
                                 <div className="flex items-end gap-1 text-4xl font-bold tracking-tight text-foreground">
                                     {stat.value}
-                                    {stat.suffix && <Star size={20} weight="fill" className="mb-1 text-[var(--color-primary)]" />}
+                                    {stat.suffix && <StarIcon size={20} weight="fill" className="mb-1 text-[var(--color-primary)]" />}
                                 </div>
                                 <div className="mt-2 text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-60">
                                     {stat.label}
@@ -260,7 +260,7 @@ export default function MentorsPage() {
                                                 {mentor.initials}
                                             </div>
                                             <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-bg)] bg-[var(--color-primary)] text-white shadow-sm">
-                                                <CheckCircle size={14} weight="fill" />
+                                                <CheckCircleIcon size={14} weight="fill" />
                                             </div>
                                         </div>
                                         <div
@@ -290,19 +290,19 @@ export default function MentorsPage() {
                                     <div className="mt-8 grid grid-cols-3 gap-4 border-y border-[var(--color-border-light)] py-4 font-mono">
                                         <div className="flex flex-col">
                                             <span className="flex items-center gap-1 text-[13px] font-bold text-foreground">
-                                                <Star size={14} weight="fill" className="text-[var(--color-primary)]" /> {mentor.rating}
+                                                <StarIcon size={14} weight="fill" className="text-[var(--color-primary)]" /> {mentor.rating}
                                             </span>
                                             <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Rating</span>
                                         </div>
                                         <div className="flex flex-col border-x border-[var(--color-border-light)] px-4">
                                             <span className="flex items-center gap-1 text-[13px] font-bold text-foreground">
-                                                <RocketLaunch size={14} weight="duotone" className="text-[var(--color-primary)]" /> {mentor.projectsShipped}
+                                                <RocketLaunchIcon size={14} weight="duotone" className="text-[var(--color-primary)]" /> {mentor.projectsShipped}
                                             </span>
                                             <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Shipped</span>
                                         </div>
                                         <div className="flex flex-col items-end">
                                             <span className="flex items-center gap-1 text-[13px] font-bold text-foreground">
-                                                <ChatCircle size={14} weight="duotone" className="text-[var(--color-primary)]" /> {mentor.sessionsCompleted}
+                                                <ChatCircleIcon size={14} weight="duotone" className="text-[var(--color-primary)]" /> {mentor.sessionsCompleted}
                                             </span>
                                             <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Sessions</span>
                                         </div>
@@ -317,7 +317,7 @@ export default function MentorsPage() {
                                 <div className="mt-auto border-t border-[var(--color-border-light)] bg-[var(--color-surface-glass)]/60 p-6 flex flex-col gap-3 rounded-b-2xl">
                                     {requestedMentors.has(mentor.id) ? (
                                         <Button variant="outline" className="h-12 w-full cursor-not-allowed border-[var(--color-primary)] text-[var(--color-primary)]" disabled>
-                                            <CheckCircle size={18} weight="bold" /> Request Sent
+                                            <CheckCircleIcon size={18} weight="bold" /> Request Sent
                                         </Button>
                                     ) : (
                                         <Button
@@ -329,7 +329,7 @@ export default function MentorsPage() {
                                     )}
                                     <Button asChild variant="outline" className="h-12 w-full font-bold">
                                         <Link href="/bookings">
-                                            <Calendar size={18} weight="bold" /> Book 1:1 Session
+                                            <CalendarIcon size={18} weight="bold" /> Book 1:1 Session
                                         </Link>
                                     </Button>
                                 </div>

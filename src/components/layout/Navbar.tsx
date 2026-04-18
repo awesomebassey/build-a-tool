@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Wrench, ArrowUpRight, List, X } from "@phosphor-icons/react";
+import { WrenchIcon, ArrowUpRightIcon, ListIcon, XIcon } from "@phosphor-icons/react";
 import { m, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -39,7 +39,7 @@ export default function Navbar() {
             >
                 <div className="flex h-full items-center justify-between pl-6 pr-2">
                     <Link href="/" className="flex items-center gap-2 font-semibold text-foreground tracking-tight">
-                        <Wrench size={22} weight="duotone" className="text-[var(--color-primary)]" />
+                        <WrenchIcon size={22} weight="duotone" className="text-[var(--color-primary)]" />
                         <span className="text-lg">Build<span className="text-[var(--color-primary)] font-bold">A</span>Tool</span>
                     </Link>
 
@@ -73,7 +73,7 @@ export default function Navbar() {
                         <m.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="hidden md:block">
                             <Button asChild size="sm" className="rounded-full">
                                 <Link href="/ideas/new" className="flex items-center gap-2">
-                                    Submit Idea <ArrowUpRight size={14} weight="bold" />
+                                    Submit Idea <ArrowUpRightIcon size={14} weight="bold" />
                                 </Link>
                             </Button>
                         </m.div>
@@ -82,7 +82,7 @@ export default function Navbar() {
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label="Toggle Menu"
                         >
-                            <List size={26} weight="regular" />
+                            <ListIcon size={26} weight="regular" />
                         </button>
                     </div>
                 </div>
@@ -105,7 +105,7 @@ export default function Navbar() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <X size={32} weight="light" />
+                            <XIcon size={32} weight="light" />
                         </m.button>
                         <m.div
                             className="flex flex-col items-center gap-8 text-center"
@@ -134,7 +134,7 @@ export default function Navbar() {
                             >
                                 <Button asChild size="lg" className="mt-8 rounded-full shadow-[0_4px_14px_0_rgba(255,107,53,0.3)]">
                                     <Link href="/ideas/new" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
-                                        Submit Idea <ArrowUpRight size={16} weight="bold" />
+                                        Submit Idea <ArrowUpRightIcon size={16} weight="bold" />
                                     </Link>
                                 </Button>
                             </m.div>

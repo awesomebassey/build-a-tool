@@ -2,17 +2,17 @@
 
 import Link from "next/link";
 import {
-  Lightbulb,
-  TrendUp,
-  ArrowRight,
-  Play,
-  Quotes,
-  Users,
-  Rocket,
-  Handshake,
-  Lightning,
-  ShieldCheck,
-  Star,
+  LightbulbIcon,
+  TrendUpIcon,
+  ArrowRightIcon,
+  PlayIcon,
+  QuotesIcon,
+  UsersIcon,
+  RocketIcon,
+  HandshakeIcon,
+  LightningIcon,
+  ShieldCheckIcon,
+  StarIcon,
 } from "@phosphor-icons/react";
 import { m, useInView } from "motion/react";
 import Navbar from "@/components/layout/Navbar";
@@ -58,25 +58,25 @@ function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string })
 /* ── Data ── */
 const HOW_IT_WORKS_STEPS = [
   {
-    icon: <Lightbulb weight="duotone" size={28} />,
+    icon: <LightbulbIcon weight="duotone" size={28} />,
     title: "Describe your vision",
     description:
       "No code. No jargon. Just describe the problem you want to solve in your own words — we handle the rest.",
   },
   {
-    icon: <Users weight="duotone" size={28} />,
+    icon: <UsersIcon weight="duotone" size={28} />,
     title: "The community reacts",
     description:
       "Your idea goes live on the community feed. The tools that solve real Nigerian problems get upvoted to the top.",
   },
   {
-    icon: <Handshake weight="duotone" size={28} />,
+    icon: <HandshakeIcon weight="duotone" size={28} />,
     title: "Get matched with a mentor",
     description:
       "An elite Nigerian developer claims your idea and guides AI agents to build, test, and refine your tool live.",
   },
   {
-    icon: <Rocket weight="duotone" size={28} />,
+    icon: <RocketIcon weight="duotone" size={28} />,
     title: "Launch and celebrate",
     description:
       "Your tool ships to real users. You join a growing network of Nigerian builders who turned ideas into impact.",
@@ -207,9 +207,9 @@ export default function LandingPage() {
               <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }} className="w-full md:w-auto">
                 <Button asChild size="lg" className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-primary to-[var(--color-primary-light)] bg-[size:200%_200%] px-8 text-base font-semibold text-[var(--color-primary-content)] shadow-[0_8px_32px_rgba(255,107,53,0.35)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(255,107,53,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] md:w-auto" style={{ animation: 'shimmer 4s ease infinite' }}>
                   <Link href="/ideas/new">
-                    <Lightbulb size={20} weight="duotone" />
+                    <LightbulbIcon size={20} weight="duotone" />
                     Submit Your Idea
-                    <ArrowRight size={16} weight="bold" />
+                    <ArrowRightIcon size={16} weight="bold" />
                   </Link>
                 </Button>
               </m.div>
@@ -242,10 +242,10 @@ export default function LandingPage() {
                 <div className="flex h-[340px]">
                   <div className="hidden w-[200px] flex-col gap-4 border-r border-border bg-[var(--color-surface-3)] p-6 md:flex">
                     <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-                      <CheckCircle color="var(--color-primary)" weight="fill" /> Requirements
+                      <CheckCircleIcon color="var(--color-primary)" weight="fill" /> Requirements
                     </div>
                     <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-                      <CheckCircle color="var(--color-primary)" weight="fill" /> MVP Code
+                      <CheckCircleIcon color="var(--color-primary)" weight="fill" /> MVP CodeIcon
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <span className="h-3.5 w-3.5 rounded-full border-2 border-[var(--color-border)] border-t-primary" style={{ animation: 'spin-smooth 1s linear infinite' }} /> Deployment
@@ -371,12 +371,12 @@ export default function LandingPage() {
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">{mentor.bio}</p>
                     <div className="mt-2 flex items-center gap-4 border-t border-border pt-4 font-mono text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1"><Star size={14} weight="fill" color="var(--color-gold)" /> {mentor.rating}</span>
+                      <span className="flex items-center gap-1"><StarIcon size={14} weight="fill" color="var(--color-gold)" /> {mentor.rating}</span>
                       <span className="flex items-center gap-1">{mentor.sessions} sessions</span>
                       <span className="ml-auto text-sm font-semibold text-foreground">{mentor.rate}/hr</span>
                     </div>
                     <Link href="/bookings" className="flex h-11 items-center justify-center gap-2 rounded-full bg-[var(--color-surface-2)] text-sm font-medium text-foreground transition-all duration-200 group-hover:bg-primary group-hover:text-[var(--color-primary-content)]">
-                      Book Session <ArrowRight size={14} weight="bold" />
+                      Book Session <ArrowRightIcon size={14} weight="bold" />
                     </Link>
                   </m.div>
                 </GlowCard>
@@ -387,7 +387,7 @@ export default function LandingPage() {
               <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
                 <Button asChild variant="outline" className="flex h-12 items-center gap-2 rounded-full px-6 transition-all duration-300 hover:border-[var(--color-border-focus)] hover:bg-[var(--color-surface-2)]">
                   <Link href="/mentors">
-                    View All Mentors <ArrowRight size={14} weight="bold" />
+                    View All Mentors <ArrowRightIcon size={14} weight="bold" />
                   </Link>
                 </Button>
               </m.div>
@@ -423,13 +423,13 @@ export default function LandingPage() {
                   <div className="mb-4 flex items-center justify-between">
                     <span className="text-xs font-semibold uppercase tracking-wider text-primary">{tool.category}</span>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <TrendUp weight="bold" /> {tool.likes}
+                      <TrendUpIcon weight="bold" /> {tool.likes}
                     </div>
                   </div>
                   <h4 className="mb-1 text-lg font-semibold text-foreground">{tool.name}</h4>
                   <p className="mb-6 text-sm text-muted-foreground">Idea by {tool.author}</p>
                   <button className="mt-auto flex h-11 items-center justify-center gap-2 rounded-full bg-[var(--color-surface-2)] text-sm font-medium text-foreground transition-all duration-200 group-hover:bg-foreground group-hover:text-background border-none">
-                    <Play weight="fill" /> Preview App
+                    <PlayIcon weight="fill" /> Preview App
                   </button>
                 </div>
               ))}
@@ -464,7 +464,7 @@ export default function LandingPage() {
                   whileHover={{ y: -4, transition: { duration: 0.3 } }}
                 >
                   <div className="pointer-events-none absolute left-[10%] right-[10%] top-0 h-[1px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.5)] to-transparent" />
-                  <Quotes size={32} weight="fill" className="text-[var(--color-primary-light)] opacity-35" />
+                  <QuotesIcon size={32} weight="fill" className="text-[var(--color-primary-light)] opacity-35" />
                   <p className="flex-1 text-base italic leading-relaxed text-foreground">&quot;{t.text}&quot;</p>
                   <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-[var(--color-primary-content)]">{t.initials}</div>
@@ -500,9 +500,9 @@ export default function LandingPage() {
               <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }} className="w-full md:w-auto">
                 <Button asChild size="lg" className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-primary to-[var(--color-primary-light)] bg-[size:200%_200%] px-8 text-base font-semibold text-[var(--color-primary-content)] shadow-[0_8px_32px_rgba(255,107,53,0.35)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(255,107,53,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] md:w-auto" style={{ animation: 'shimmer 4s ease infinite' }}>
                   <Link href="/ideas/new">
-                    <Lightbulb size={20} weight="duotone" />
+                    <LightbulbIcon size={20} weight="duotone" />
                     Start Building Today
-                    <ArrowRight size={16} weight="bold" />
+                    <ArrowRightIcon size={16} weight="bold" />
                   </Link>
                 </Button>
               </m.div>
@@ -516,15 +516,15 @@ export default function LandingPage() {
             </div>
             <div className="relative z-10 mt-8 flex flex-wrap justify-center gap-4 md:gap-8">
               <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                <ShieldCheck size={18} weight="duotone" />
+                <ShieldCheckIcon size={18} weight="duotone" />
                 Paystack Secured
               </div>
               <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                <Users size={18} weight="duotone" />
+                <UsersIcon size={18} weight="duotone" />
                 200+ Active Builders
               </div>
               <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                <Lightning size={18} weight="duotone" />
+                <LightningIcon size={18} weight="duotone" />
                 Ships in Days, Not Months
               </div>
             </div>
@@ -537,7 +537,7 @@ export default function LandingPage() {
 }
 
 /* Icon helper */
-function CheckCircle({ color, weight }: { color: string; weight: string }) {
+function CheckCircleIcon({ color, weight }: { color: string; weight: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill={color} viewBox="0 0 256 256">
       <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"></path>

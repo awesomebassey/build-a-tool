@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, CheckCircle, ArrowsClockwise, Robot, PaperPlaneRight, User, Lightning } from "@phosphor-icons/react";
+import { ArrowLeftIcon, CheckCircleIcon, ArrowsClockwiseIcon, RobotIcon, PaperPlaneRightIcon, LightningIcon } from "@phosphor-icons/react";
 
 interface Message {
     id: number;
@@ -83,7 +83,7 @@ import { m, AnimatePresence } from "motion/react";
 import { useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { Badge } from "@/components/ui/badge";
 
 const container = {
@@ -165,7 +165,7 @@ export default function WorkspacePage() {
             >
                 <div className="flex items-center gap-6">
                     <Link href="/feed" className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-primary)]">
-                        <ArrowLeft size={16} weight="bold" /> Back
+                        <ArrowLeftIcon size={16} weight="bold" /> Back
                     </Link>
                     <div className="h-6 w-px bg-[var(--color-border-light)]" />
                     <div className="flex flex-col gap-0.5">
@@ -196,13 +196,13 @@ export default function WorkspacePage() {
                     className={`flex flex-1 items-center justify-center gap-2 py-4 text-[11px] font-bold uppercase tracking-widest transition-all ${mobileTab === "chat" ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]" : "text-[var(--color-text-secondary)] opacity-60"}`}
                     onClick={() => setMobileTab("chat")}
                 >
-                    <PaperPlaneRight size={16} /> Chat
+                    <PaperPlaneRightIcon size={16} /> Chat
                 </button>
                 <button
                     className={`flex flex-1 items-center justify-center gap-2 py-4 text-[11px] font-bold uppercase tracking-widest transition-all ${mobileTab === "ai" ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]" : "text-[var(--color-text-secondary)] opacity-60"}`}
                     onClick={() => setMobileTab("ai")}
                 >
-                    <Robot size={16} /> AI Agent
+                    <RobotIcon size={16} /> AI Agent
                 </button>
             </div>
 
@@ -224,7 +224,7 @@ export default function WorkspacePage() {
                                             msg.sender === "founder" ? "bg-[var(--color-primary)] text-white" : "bg-[var(--color-surface-3)] text-foreground"
                                         }`}
                                     >
-                                        {msg.sender === "ai" ? <Robot size={20} weight="fill" /> : msg.initials}
+                                        {msg.sender === "ai" ? <RobotIcon size={20} weight="fill" /> : msg.initials}
                                     </div>
                                     <div className={`flex flex-1 flex-col gap-1.5 ${msg.sender === "founder" ? "items-end" : ""}`}>
                                         <div className={`flex items-center gap-3 ${msg.sender === "founder" ? "flex-row-reverse" : ""}`}>
@@ -259,7 +259,7 @@ export default function WorkspacePage() {
                                 id="chat-input"
                             />
                             <Button type="submit" size="icon" className="h-10 w-10 shrink-0 rounded-xl" disabled={!newMessage.trim()}>
-                                <PaperPlaneRight size={18} weight="fill" />
+                                <PaperPlaneRightIcon size={18} weight="fill" />
                             </Button>
                         </m.div>
                     </form>
@@ -273,7 +273,7 @@ export default function WorkspacePage() {
                 >
                     <div className="flex items-center justify-between">
                         <h2 className="font-heading flex items-center gap-3 text-lg font-bold tracking-tight text-foreground">
-                            <Robot size={24} weight="duotone" className="text-[var(--color-primary)]" /> Command Center
+                            <RobotIcon size={24} weight="duotone" className="text-[var(--color-primary)]" /> Command Center
                         </h2>
                         <Badge className="gap-1.5 rounded-full px-3 py-1 font-bold uppercase tracking-widest text-[10px]">
                             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live
@@ -293,9 +293,9 @@ export default function WorkspacePage() {
                                     <Card className="flex gap-4 border-[var(--color-border-light)] p-4 shadow-none hover:bg-[var(--color-surface-2)]">
                                         <div className="mt-0.5">
                                             {activity.type === "success" ? (
-                                                <CheckCircle size={18} weight="fill" className="text-[var(--color-primary)]" />
+                                                <CheckCircleIcon size={18} weight="fill" className="text-[var(--color-primary)]" />
                                             ) : (
-                                                <ArrowsClockwise size={18} weight="bold" className="animate-spin text-[var(--color-text-secondary)] opacity-40" />
+                                                <ArrowsClockwiseIcon size={18} weight="bold" className="animate-spin text-[var(--color-text-secondary)] opacity-40" />
                                             )}
                                         </div>
                                         <div className="flex flex-col gap-0.5">
@@ -321,7 +321,7 @@ export default function WorkspacePage() {
                                     id="mentor-prompt"
                                 />
                                 <Button type="submit" className="h-12 w-full font-bold shadow-lg" disabled={!mentorPrompt.trim()}>
-                                    Queue Task <Lightning size={16} weight="fill" />
+                                    Queue Task <LightningIcon size={16} weight="fill" />
                                 </Button>
                             </form>
                         </Card>

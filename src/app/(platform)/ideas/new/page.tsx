@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Sparkle, RocketLaunch, ArrowLeft, Lightbulb, ChatText, ArrowUpRight } from "@phosphor-icons/react";
+import { SparkleIcon, RocketLaunchIcon, ArrowLeftIcon, LightbulbIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { m, AnimatePresence } from "motion/react";
+import { m } from "motion/react";
 
 const CATEGORIES = [
     "E-Commerce",
@@ -64,7 +64,7 @@ export default function NewIdeaPage() {
                         transition={{ type: "spring", stiffness: 200, damping: 15 }}
                         className="mb-10 flex h-28 w-28 items-center justify-center rounded-[2.5rem] border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/10 shadow-[0_20px_40px_rgba(230,126,34,0.1)]"
                     >
-                        <Sparkle size={56} weight="duotone" className="text-[var(--color-primary)]" />
+                        <SparkleIcon size={56} weight="duotone" className="text-[var(--color-primary)]" />
                     </m.div>
                     <m.h1 
                         initial={{ y: 20, opacity: 0 }}
@@ -90,7 +90,7 @@ export default function NewIdeaPage() {
                     >
                         <Button asChild size="lg" className="h-16 px-10 text-lg font-bold shadow-xl shadow-[var(--color-primary)]/20">
                             <Link href="/feed" className="flex items-center gap-3">
-                                View on Feed <ArrowUpRight size={20} weight="bold" />
+                                View on Feed <ArrowUpRightIcon size={20} weight="bold" />
                             </Link>
                         </Button>
                         <Button variant="outline" size="lg" onClick={() => setSubmitted(false)} className="h-16 px-10 text-lg font-bold border-[var(--color-border-light)] hover:bg-[var(--color-surface-2)]">
@@ -111,7 +111,7 @@ export default function NewIdeaPage() {
             >
                 <div className="container mx-auto flex h-[var(--nav-height)] items-center justify-between px-6">
                     <Link href="/feed" className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-primary)]">
-                        <ArrowLeft size={16} weight="bold" /> Back to Feed
+                        <ArrowLeftIcon size={16} weight="bold" /> Back to Feed
                     </Link>
                 </div>
             </m.nav>
@@ -125,7 +125,7 @@ export default function NewIdeaPage() {
                 >
                     <m.div variants={item} className="mb-16 text-center">
                         <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface-1)] shadow-inner">
-                            <Lightbulb size={40} weight="duotone" className="text-[var(--color-primary)]" />
+                            <LightbulbIcon size={40} weight="duotone" className="text-[var(--color-primary)]" />
                         </div>
                         <h1 className="font-heading text-4xl font-bold tracking-tight text-foreground md:text-5xl">Tell us everything.</h1>
                         <p className="mt-5 text-lg leading-relaxed text-[var(--color-text-secondary)] opacity-80">
@@ -172,7 +172,7 @@ export default function NewIdeaPage() {
                                     ))}
                                 </select>
                                 <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 opacity-40">
-                                    <ArrowUpRight size={16} weight="bold" className="rotate-45" />
+                                    <ArrowUpRightIcon size={16} weight="bold" className="rotate-45" />
                                 </div>
                             </div>
                         </m.div>
@@ -224,7 +224,7 @@ export default function NewIdeaPage() {
 
                         <m.div variants={item}>
                             <Card className="p-8 border-[var(--color-border-light)] bg-[var(--color-surface-glass)] backdrop-blur-md">
-                                <h4 className="mb-5 flex items-center gap-3 text-[13px] font-bold uppercase tracking-widest text-[var(--color-primary)]"><Sparkle size={20} weight="duotone" /> Tips for a Great Submission</h4>
+                                <h4 className="mb-5 flex items-center gap-3 text-[13px] font-bold uppercase tracking-widest text-[var(--color-primary)]"><SparkleIcon size={20} weight="duotone" /> Tips for a Great Submission</h4>
                                 <ul className="space-y-4">
                                     {[
                                         "Be specific about the problem — who has it and why it matters.",
@@ -247,7 +247,7 @@ export default function NewIdeaPage() {
                                 className="shimmer-btn flex w-full items-center justify-center gap-3 rounded-2xl px-12 py-7 text-xl font-bold text-white shadow-xl shadow-[var(--color-primary)]/20 transition-all duration-300 hover:scale-[1.01] hover:brightness-110 active:scale-[0.98]"
                                 id="submit-idea"
                             >
-                                Submit to Community Feed <RocketLaunch size={24} weight="fill" />
+                                Submit to Community Feed <RocketLaunchIcon size={24} weight="fill" />
                             </button>
                         </m.div>
                     </form>

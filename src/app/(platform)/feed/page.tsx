@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { MagnifyingGlass, CaretUp, ChatCircle, RocketLaunch, ShareNetwork, CircleDashed } from "@phosphor-icons/react";
+import { MagnifyingGlassIcon, CaretUpIcon, ChatCircleIcon, RocketLaunchIcon, ShareNetworkIcon, CircleDashedIcon } from "@phosphor-icons/react";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -138,7 +138,7 @@ const CATEGORIES = [
 ];
 
 const SORT_OPTIONS = ["Most Votes", "Newest", "Most Comments"];
-import { m, AnimatePresence } from "motion/react";
+import { m } from "motion/react";
 import { Card } from "@/components/ui/card";
 
 const container = {
@@ -216,7 +216,7 @@ export default function FeedPage() {
                     <m.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                         <Button asChild size="lg" className="h-14 rounded-2xl px-8 shadow-xl">
                             <Link href="/ideas/new" className="flex items-center gap-2">
-                                Submit Your Idea <RocketLaunch size={18} weight="duotone" />
+                                Submit Your Idea <RocketLaunchIcon size={18} weight="duotone" />
                             </Link>
                         </Button>
                     </m.div>
@@ -266,7 +266,7 @@ export default function FeedPage() {
                     ))}
                 </m.div>
 
-                {/* Ideas List */}
+                {/* Ideas ListIcon */}
                 <m.div 
                     className="flex flex-col gap-6"
                     variants={container}
@@ -292,7 +292,7 @@ export default function FeedPage() {
                                         aria-label={`Upvote ${idea.title}`}
                                         id={`vote-${idea.id}`}
                                     >
-                                        <CaretUp
+                                        <CaretUpIcon
                                             size={28}
                                             weight={votedIdeas.has(idea.id) ? "bold" : "regular"}
                                             className={`transition-transform duration-300 ${
@@ -308,9 +308,9 @@ export default function FeedPage() {
                                         <div className="mb-4 flex flex-wrap items-center gap-3">
                                             <Badge variant="outline" className={`h-7 gap-1.5 px-3 font-bold uppercase tracking-widest text-[10px] ${getStatusStyle(idea.status)}`}>
                                                 {idea.status === "Shipped" ? (
-                                                    <><RocketLaunch size={14} weight="fill" /> Shipped</>
+                                                    <><RocketLaunchIcon size={14} weight="fill" /> Shipped</>
                                                 ) : idea.status === "Building" ? (
-                                                    <><CircleDashed size={14} weight="bold" className="animate-spin" /> Building</>
+                                                    <><CircleDashedIcon size={14} weight="bold" className="animate-spin" /> Building</>
                                                 ) : (
                                                     idea.status
                                                 )}
@@ -344,10 +344,10 @@ export default function FeedPage() {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <button className="flex h-10 items-center gap-2 rounded-xl bg-[var(--color-surface-2)] px-4 text-[13px] font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-surface-3)] hover:text-foreground">
-                                                    <ChatCircle size={20} weight="duotone" className="text-[var(--color-primary)]" /> {idea.comments}
+                                                    <ChatCircleIcon size={20} weight="duotone" className="text-[var(--color-primary)]" /> {idea.comments}
                                                 </button>
                                                 <button className="flex h-10 items-center gap-2 rounded-xl bg-[var(--color-surface-2)] px-4 text-[13px] font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-surface-3)] hover:text-foreground">
-                                                    <ShareNetwork size={20} weight="duotone" className="text-[var(--color-primary)]" />
+                                                    <ShareNetworkIcon size={20} weight="duotone" className="text-[var(--color-primary)]" />
                                                 </button>
                                             </div>
                                         </div>
@@ -364,7 +364,7 @@ export default function FeedPage() {
                             className="liquid-glass mt-12 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[var(--color-border)] p-20 text-center"
                         >
                             <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-secondary)]">
-                                <MagnifyingGlass size={40} weight="thin" />
+                                <MagnifyingGlassIcon size={40} weight="thin" />
                             </div>
                             <h3 className="mb-3 font-heading text-2xl font-semibold text-foreground">No ideas found</h3>
                             <p className="max-w-[400px] text-lg text-[var(--color-text-secondary)]">

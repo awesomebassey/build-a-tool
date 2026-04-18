@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Wrench, GithubLogo, TwitterLogo, InstagramLogo, LinkedinLogo, EnvelopeSimple } from "@phosphor-icons/react";
+import { WrenchIcon, GithubLogoIcon, TwitterLogoIcon, InstagramLogoIcon, LinkedinLogoIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
                 <div className="flex flex-col justify-between gap-12 md:flex-row">
                     <div className="max-w-[360px]">
                         <Link href="/" className="mb-4 flex items-center gap-2 text-lg font-semibold text-foreground">
-                            <Wrench size={24} weight="duotone" className="text-[var(--color-primary)]" />
+                            <WrenchIcon size={24} weight="duotone" className="text-[var(--color-primary)]" />
                             <span>Build<span className="text-[var(--color-primary)] font-bold">A</span>Tool</span>
                         </Link>
                         <p className="mb-8 text-sm leading-relaxed text-[var(--color-text-secondary)]">
@@ -23,7 +23,7 @@ export default function Footer() {
                             <h4 className="mb-3 text-[13px] font-semibold text-foreground uppercase tracking-wider opacity-60">Stay in the loop</h4>
                             <form className="flex flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
                                 <div className="relative flex-1">
-                                    <EnvelopeSimple size={18} weight="duotone" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
+                                    <EnvelopeSimpleIcon size={18} weight="duotone" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
                                     <input
                                         type="email"
                                         placeholder="your@email.com"
@@ -64,16 +64,16 @@ export default function Footer() {
                     </p>
                     <div className="flex items-center gap-4">
                         <Link href="#" aria-label="Twitter" className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-[var(--color-surface-2)] text-muted-foreground transition-all duration-150 hover:-translate-y-0.5 hover:scale-110 hover:border-primary hover:bg-primary hover:text-primary-foreground">
-                            <TwitterLogo size={20} weight="fill" />
+                            <TwitterLogoIcon size={20} weight="fill" />
                         </Link>
                         <Link href="#" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-[var(--color-surface-2)] text-muted-foreground transition-all duration-150 hover:-translate-y-0.5 hover:scale-110 hover:border-primary hover:bg-primary hover:text-primary-foreground">
-                            <InstagramLogo size={20} weight="fill" />
+                            <InstagramLogoIcon size={20} weight="fill" />
                         </Link>
                         <Link href="#" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-[var(--color-surface-2)] text-muted-foreground transition-all duration-150 hover:-translate-y-0.5 hover:scale-110 hover:border-primary hover:bg-primary hover:text-primary-foreground">
-                            <LinkedinLogo size={20} weight="fill" />
+                            <LinkedinLogoIcon size={20} weight="fill" />
                         </Link>
                         <Link href="#" aria-label="GitHub" className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-[var(--color-surface-2)] text-muted-foreground transition-all duration-150 hover:-translate-y-0.5 hover:scale-110 hover:border-primary hover:bg-primary hover:text-primary-foreground">
-                            <GithubLogo size={20} weight="fill" />
+                            <GithubLogoIcon size={20} weight="fill" />
                         </Link>
                     </div>
                 </div>

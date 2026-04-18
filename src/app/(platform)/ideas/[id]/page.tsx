@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, CaretUp, ChatCircle, CheckCircle, CircleDashed, RocketLaunch, ArrowRight, Lightning } from "@phosphor-icons/react";
+import { ArrowLeftIcon, CaretUpIcon, ChatCircleIcon, CheckCircleIcon, CircleDashedIcon, RocketLaunchIcon, ArrowRightIcon, LightningIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { m, AnimatePresence } from "motion/react";
+import { m } from "motion/react";
 
 const IDEA = {
     id: 1,
@@ -53,7 +53,7 @@ export default function IdeaDetailPage() {
             >
                 <div className="container mx-auto flex h-[var(--nav-height)] items-center justify-between px-6">
                     <Link href="/feed" className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] transition-all hover:text-[var(--color-primary)]">
-                        <ArrowLeft size={20} weight="bold" /> Back to Feed
+                        <ArrowLeftIcon size={20} weight="bold" /> Back to Feed
                     </Link>
                 </div>
             </m.nav>
@@ -108,7 +108,7 @@ export default function IdeaDetailPage() {
                             {/* Comments */}
                             <m.div variants={item} className="pt-10 border-t border-[var(--color-border-light)]">
                                 <h2 className="font-heading mb-10 flex items-center gap-4 text-2xl font-bold tracking-tight text-foreground">
-                                    <ChatCircle size={28} weight="duotone" className="text-[var(--color-primary)]" />
+                                    <ChatCircleIcon size={28} weight="duotone" className="text-[var(--color-primary)]" />
                                     Discussion ({IDEA.comments.length})
                                 </h2>
                                 <div className="space-y-10">
@@ -149,12 +149,12 @@ export default function IdeaDetailPage() {
                         <m.div variants={item}>
                             <Card className="flex flex-col items-center gap-6 p-10 border-[var(--color-border)] bg-[var(--color-surface-1)] shadow-xl shadow-[var(--color-primary-glow)]/5">
                                 <div className="flex flex-col items-center gap-1">
-                                    <CaretUp size={40} weight="bold" className="mb-2 text-[var(--color-primary)]" />
+                                    <CaretUpIcon size={40} weight="bold" className="mb-2 text-[var(--color-primary)]" />
                                     <span className="text-6xl font-black leading-none tracking-tighter text-foreground">{IDEA.votes}</span>
                                     <span className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-secondary)] opacity-60">Total Upvotes</span>
                                 </div>
                                 <Button className="h-14 w-full text-base font-bold shadow-xl shadow-[var(--color-primary)]/20 transition-all hover:scale-[1.02] hover:brightness-110">
-                                    Upvote Idea <Lightning size={20} weight="fill" className="ml-2" />
+                                    Upvote Idea <LightningIcon size={20} weight="fill" className="ml-2" />
                                 </Button>
                             </Card>
                         </m.div>
@@ -164,11 +164,11 @@ export default function IdeaDetailPage() {
                                 <h3 className="mb-8 text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-secondary)] opacity-60">Project Roadmap</h3>
                                 <div className="space-y-8">
                                     {[
-                                        { label: "Idea Submitted", icon: CheckCircle, status: "complete" },
-                                        { label: "Community Voted", icon: CheckCircle, status: "complete" },
-                                        { label: "Mentor Matched", icon: CircleDashed, status: "current" },
-                                        { label: "Building", icon: CircleDashed, status: "upcoming" },
-                                        { label: "Shipped", icon: RocketLaunch, status: "upcoming" },
+                                        { label: "Idea Submitted", icon: CheckCircleIcon, status: "complete" },
+                                        { label: "Community Voted", icon: CheckCircleIcon, status: "complete" },
+                                        { label: "Mentor Matched", icon: CircleDashedIcon, status: "current" },
+                                        { label: "Building", icon: CircleDashedIcon, status: "upcoming" },
+                                        { label: "Shipped", icon: RocketLaunchIcon, status: "upcoming" },
                                     ].map((step, i) => (
                                         <div key={i} className="relative flex items-center gap-5 group last:after:hidden">
                                             {i < 4 && (
@@ -206,7 +206,7 @@ export default function IdeaDetailPage() {
                                 </div>
                                 <Button asChild variant="outline" className="h-12 w-full font-bold border-[var(--color-border-light)] hover:bg-[var(--color-surface-2)]">
                                     <Link href="/workspace/1" className="flex items-center gap-2">
-                                        Open Workspace <ArrowRight size={18} weight="bold" />
+                                        Open Workspace <ArrowRightIcon size={18} weight="bold" />
                                     </Link>
                                 </Button>
                             </Card>

@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { Sun, Moon } from "@phosphor-icons/react";
+import { SunIcon, MoonIcon } from "@phosphor-icons/react";
 
 export function ThemeToggle() {
     const { theme, setTheme } = useTheme();
@@ -50,9 +50,9 @@ export function ThemeToggle() {
             }}
         >
             {theme === "dark" ? (
-                <Moon size={18} weight="duotone" />
+                <MoonIcon size={18} weight="duotone" />
             ) : (
-                <Sun size={18} weight="duotone" />
+                <SunIcon size={18} weight="duotone" />
             )}
         </button>
     );

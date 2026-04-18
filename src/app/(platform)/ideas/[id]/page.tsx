@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, CaretUp, ChatCircle, CheckCircle, CircleDashed, RocketLaunch, ArrowRight } from "@phosphor-icons/react";
-import styles from "./idea-detail.module.css";
+import { ArrowLeft, CaretUp, ChatCircle, CheckCircle, CircleDashed, RocketLaunch, ArrowRight, Lightning } from "@phosphor-icons/react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { m, AnimatePresence } from "motion/react";
 
 const IDEA = {
     id: 1,
@@ -24,131 +27,193 @@ const IDEA = {
     ],
 };
 
+const container = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2
+        }
+    }
+};
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+};
+
 export default function IdeaDetailPage() {
     return (
-        <div className={styles.page}>
-            <nav className={styles.nav}>
-                <div className={`container ${styles.navInner}`}>
-                    <Link href="/feed" className={styles.backBtn}>
-                        <ArrowLeft size={20} /> Back to Feed
+        <div className="min-h-screen bg-[var(--color-bg)]">
+            <m.nav 
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="sticky top-0 z-50 border-b border-[var(--color-border-light)] bg-[var(--color-surface-glass)] backdrop-blur-2xl"
+            >
+                <div className="container mx-auto flex h-[var(--nav-height)] items-center justify-between px-6">
+                    <Link href="/feed" className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] transition-all hover:text-[var(--color-primary)]">
+                        <ArrowLeft size={20} weight="bold" /> Back to Feed
                     </Link>
                 </div>
-            </nav>
+            </m.nav>
 
-            <div className={`container ${styles.content}`}>
-                <div className={styles.ideaLayout}>
-                    <div className={styles.mainCol}>
+            <m.div 
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="container mx-auto py-16 px-6 pb-32"
+            >
+                <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_380px] lg:gap-20">
+                    <div>
                         {/* Header */}
-                        <div className={styles.ideaHeader}>
-                            <div className={styles.ideaMeta}>
-                                <span className="badge badge-warm">{IDEA.status}</span>
-                                <span className="badge badge-gold">{IDEA.category}</span>
+                        <m.div variants={item} className="mb-14">
+                            <div className="mb-6 flex gap-3">
+                                <Badge variant="outline" className="h-6 border-[var(--color-primary)]/20 bg-[var(--color-primary)]/10 px-3 text-[10px] font-bold uppercase tracking-widest text-[var(--color-primary)]">
+                                    {IDEA.status}
+                                </Badge>
+                                <Badge variant="outline" className="h-6 border-[#FFB800]/20 bg-[#FFB800]/10 px-3 text-[10px] font-bold uppercase tracking-widest text-[#FFB800]">
+                                    {IDEA.category}
+                                </Badge>
                             </div>
-                            <h1 className={styles.ideaTitle}>{IDEA.title}</h1>
-                            <div className={styles.ideaAuthor}>
-                                <div className="avatar">{IDEA.authorInitials}</div>
+                            <h1 className="font-heading mb-8 text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl lg:text-7xl">{IDEA.title}</h1>
+                            <div className="flex items-center gap-4">
+                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-surface-3)] text-sm font-bold shadow-sm">
+                                    {IDEA.authorInitials}
+                                </div>
                                 <div>
-                                    <strong>{IDEA.author}</strong>
-                                    <span className={styles.authorSub}>Submitted 2 days ago</span>
+                                    <div className="text-[15px] font-bold text-foreground">{IDEA.author}</div>
+                                    <div className="mt-0.5 text-[13px] font-medium text-[var(--color-text-secondary)] opacity-60">Submitted 2 days ago</div>
                                 </div>
                             </div>
-                        </div>
+                        </m.div>
 
-                        {/* Problem */}
-                        <div className={styles.section}>
-                            <h2 className={styles.sectionTitle}>The Problem</h2>
-                            <p className={styles.sectionText}>{IDEA.problem}</p>
-                        </div>
+                        <div className="space-y-20">
+                            {/* Problem */}
+                            <m.div variants={item}>
+                                <h2 className="font-heading mb-6 text-2xl font-bold tracking-tight text-foreground">
+                                    The Problem
+                                </h2>
+                                <p className="text-lg leading-relaxed text-[var(--color-text-secondary)] md:text-xl lg:leading-loose">{IDEA.problem}</p>
+                            </m.div>
 
-                        {/* Description */}
-                        <div className={styles.section}>
-                            <h2 className={styles.sectionTitle}>The Solution</h2>
-                            <p className={styles.sectionText}>{IDEA.description}</p>
-                        </div>
+                            {/* Description */}
+                            <m.div variants={item}>
+                                <h2 className="font-heading mb-6 text-2xl font-bold tracking-tight text-foreground">
+                                    The Solution
+                                </h2>
+                                <p className="text-lg leading-relaxed text-[var(--color-text-secondary)] md:text-xl lg:leading-loose">{IDEA.description}</p>
+                            </m.div>
 
-                        {/* Comments */}
-                        <div className={styles.section}>
-                            <h2 className={styles.sectionTitle}>
-                                <div className={styles.sectionIconWrapper}><ChatCircle size={20} weight="duotone" /></div>
-                                Discussion ({IDEA.comments.length})
-                            </h2>
-                            <div className={styles.commentsList}>
-                                {IDEA.comments.map((c) => (
-                                    <div key={c.id} className={styles.comment}>
-                                        <div className="avatar avatar-sm">{c.initials}</div>
-                                        <div className={styles.commentBody}>
-                                            <div className={styles.commentHeader}>
-                                                <strong>{c.author}</strong>
-                                                <span className={styles.commentTime}>{c.time}</span>
+                            {/* Comments */}
+                            <m.div variants={item} className="pt-10 border-t border-[var(--color-border-light)]">
+                                <h2 className="font-heading mb-10 flex items-center gap-4 text-2xl font-bold tracking-tight text-foreground">
+                                    <ChatCircle size={28} weight="duotone" className="text-[var(--color-primary)]" />
+                                    Discussion ({IDEA.comments.length})
+                                </h2>
+                                <div className="space-y-10">
+                                    {IDEA.comments.map((c) => (
+                                        <div key={c.id} className="flex gap-6 group">
+                                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-surface-3)] text-xs font-bold text-foreground transition-transform group-hover:scale-105">
+                                                {c.initials}
                                             </div>
-                                            <p className={styles.commentText}>{c.content}</p>
+                                            <div className="flex-1">
+                                                <div className="mb-2 flex items-baseline gap-4">
+                                                    <span className="text-[15px] font-bold text-foreground">{c.author}</span>
+                                                    <span className="font-mono text-[11px] font-medium opacity-40 uppercase tracking-wider">{c.time}</span>
+                                                </div>
+                                                <p className="text-[16px] leading-[1.6] text-[var(--color-text-secondary)]">{c.content}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
 
-                            <div className={styles.commentForm}>
-                                <textarea className="input textarea" placeholder="Add a comment..." rows={2} style={{ flex: 1, minHeight: "60px" }} />
-                                <button className="btn btn-primary">Post</button>
-                            </div>
+                                <div className="mt-12 group">
+                                    <div className="relative flex gap-4 p-1.5 pl-6 bg-[var(--color-surface-1)] border border-[var(--color-border)] rounded-2xl transition-all focus-within:border-[var(--color-primary)]">
+                                        <textarea 
+                                            className="flex-1 bg-transparent py-4 text-base font-medium text-foreground placeholder:opacity-40 focus:outline-none min-h-[50px] resize-none" 
+                                            placeholder="Join the conversation..." 
+                                            rows={1} 
+                                        />
+                                        <Button className="h-[50px] px-8 font-bold shadow-lg shadow-[var(--color-primary)]/20">
+                                            Reply
+                                        </Button>
+                                    </div>
+                                </div>
+                            </m.div>
                         </div>
                     </div>
 
                     {/* Sidebar */}
-                    <div className={styles.sidebar}>
-                        <div className={`card ${styles.voteCard}`}>
-                            <div className={styles.voteCount}>
-                                <CaretUp size={32} weight="bold" className={styles.voteArrow} />
-                                <span className={styles.voteNumber}>{IDEA.votes}</span>
-                                <span className={styles.voteLabel}>upvotes</span>
-                            </div>
-                            <button className="btn btn-primary" style={{ width: "100%" }}>
-                                <CaretUp size={16} weight="bold" /> Upvote Idea
-                            </button>
-                        </div>
+                    <div className="flex flex-col gap-8 lg:sticky lg:top-[calc(var(--nav-height)+4rem)]">
+                        <m.div variants={item}>
+                            <Card className="flex flex-col items-center gap-6 p-10 border-[var(--color-border)] bg-[var(--color-surface-1)] shadow-xl shadow-[var(--color-primary-glow)]/5">
+                                <div className="flex flex-col items-center gap-1">
+                                    <CaretUp size={40} weight="bold" className="mb-2 text-[var(--color-primary)]" />
+                                    <span className="text-6xl font-black leading-none tracking-tighter text-foreground">{IDEA.votes}</span>
+                                    <span className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-secondary)] opacity-60">Total Upvotes</span>
+                                </div>
+                                <Button className="h-14 w-full text-base font-bold shadow-xl shadow-[var(--color-primary)]/20 transition-all hover:scale-[1.02] hover:brightness-110">
+                                    Upvote Idea <Lightning size={20} weight="fill" className="ml-2" />
+                                </Button>
+                            </Card>
+                        </m.div>
 
-                        <div className={`card ${styles.statusCard}`}>
-                            <h3 className={styles.sidebarTitle}>Project Status</h3>
-                            <div className={styles.statusTimeline}>
-                                <div className={`${styles.statusStep} ${styles.statusDone}`}>
-                                    <div className={styles.statusIcon}><CheckCircle size={20} weight="fill" /></div>
-                                    <span>Idea Submitted</span>
+                        <m.div variants={item}>
+                            <Card className="p-8 border-[var(--color-border-light)] bg-[var(--color-surface-glass)] backdrop-blur-md">
+                                <h3 className="mb-8 text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-secondary)] opacity-60">Project Roadmap</h3>
+                                <div className="space-y-8">
+                                    {[
+                                        { label: "Idea Submitted", icon: CheckCircle, status: "complete" },
+                                        { label: "Community Voted", icon: CheckCircle, status: "complete" },
+                                        { label: "Mentor Matched", icon: CircleDashed, status: "current" },
+                                        { label: "Building", icon: CircleDashed, status: "upcoming" },
+                                        { label: "Shipped", icon: RocketLaunch, status: "upcoming" },
+                                    ].map((step, i) => (
+                                        <div key={i} className="relative flex items-center gap-5 group last:after:hidden">
+                                            {i < 4 && (
+                                                <div className={`absolute left-3 top-8 bottom-[-16px] w-0.5 ${step.status === "complete" ? "bg-[var(--color-primary)]" : "bg-[var(--color-border-light)]"}`} />
+                                            )}
+                                            <div className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:scale-110 ${
+                                                step.status === "complete" ? "bg-[var(--color-primary)] text-white" : 
+                                                step.status === "current" ? "border-2 border-[var(--color-primary)] bg-[var(--color-surface-1)] text-[var(--color-primary)] animate-pulse" :
+                                                "border-2 border-[var(--color-border-light)] bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] opacity-40"
+                                            }`}>
+                                                <step.icon size={14} weight={step.status === "complete" ? "bold" : "regular"} />
+                                            </div>
+                                            <span className={`text-[14px] font-bold tracking-tight transition-all ${
+                                                step.status === "complete" ? "text-foreground" : 
+                                                step.status === "current" ? "text-[var(--color-primary)]" : 
+                                                "text-[var(--color-text-secondary)] opacity-40"
+                                            }`}>{step.label}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className={`${styles.statusStep} ${styles.statusDone}`}>
-                                    <div className={styles.statusIcon}><CheckCircle size={20} weight="fill" /></div>
-                                    <span>Community Voted</span>
-                                </div>
-                                <div className={`${styles.statusStep} ${styles.statusActive}`}>
-                                    <div className={styles.statusIcon}><CircleDashed size={20} weight="bold" /></div>
-                                    <span>Mentor Matched</span>
-                                </div>
-                                <div className={styles.statusStep}>
-                                    <div className={styles.statusIcon}><CircleDashed size={20} /></div>
-                                    <span>Building</span>
-                                </div>
-                                <div className={styles.statusStep}>
-                                    <div className={styles.statusIcon}><RocketLaunch size={20} /></div>
-                                    <span>Shipped</span>
-                                </div>
-                            </div>
-                        </div>
+                            </Card>
+                        </m.div>
 
-                        <div className={`card ${styles.mentorCard}`}>
-                            <h3 className={styles.sidebarTitle}>Assigned Mentor</h3>
-                            <div className={styles.assignedMentor}>
-                                <div className="avatar">CN</div>
-                                <div>
-                                    <div className={styles.mentorName}>Chidi Nwosu</div>
-                                    <div className={styles.mentorRole}>Full-Stack Developer</div>
+                        <m.div variants={item}>
+                            <Card className="p-8 border-[var(--color-border)] bg-[var(--color-surface-1)]">
+                                <h3 className="mb-6 text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-secondary)] opacity-60">Assigned Mentor</h3>
+                                <div className="mb-6 flex items-center gap-5">
+                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-surface-3)] text-base font-bold shadow-inner">
+                                        CN
+                                    </div>
+                                    <div>
+                                        <div className="text-[16px] font-bold text-foreground">Chidi Nwosu</div>
+                                        <div className="mt-0.5 text-[13px] font-medium text-[var(--color-text-secondary)] opacity-60">Full-Stack Architect</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <Link href="/workspace/1" className="btn btn-outline" style={{ width: "100%", marginTop: "var(--space-4)" }}>
-                                Open Workspace <ArrowRight size={16} />
-                            </Link>
-                        </div>
+                                <Button asChild variant="outline" className="h-12 w-full font-bold border-[var(--color-border-light)] hover:bg-[var(--color-surface-2)]">
+                                    <Link href="/workspace/1" className="flex items-center gap-2">
+                                        Open Workspace <ArrowRight size={18} weight="bold" />
+                                    </Link>
+                                </Button>
+                            </Card>
+                        </m.div>
                     </div>
                 </div>
-            </div>
+            </m.div>
         </div>
     );
 }

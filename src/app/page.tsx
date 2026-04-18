@@ -14,11 +14,11 @@ import {
   ShieldCheck,
   Star,
 } from "@phosphor-icons/react";
-import { m, useMotionValue, useTransform, useInView } from "motion/react";
-import styles from "./page.module.css";
+import { m, useInView } from "motion/react";
 import Navbar from "@/components/layout/Navbar";
 import TextReveal from "@/components/ui/TextReveal";
 import GlowCard from "@/components/ui/GlowCard";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState, useRef } from "react";
 
 /* ── Motion Presets ── */
@@ -165,103 +165,102 @@ export default function LandingPage() {
   if (!mounted) return null;
 
   return (
-    <div className={styles.page}>
+    <div className="relative w-full">
       <Navbar />
 
-      <main className={styles.main}>
+      <main className="pt-[calc(var(--nav-height)+2rem)]">
         {/* ──── HERO ──── */}
-        <section className={styles.hero}>
-          <div className={styles.haloGlow} />
-          <div className={`container ${styles.heroContainer}`}>
-            <m.div
-              className={styles.heroBadge}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: EASE_FLUID }}
-            >
-              <span className={styles.badgeDot} />
-              Nigeria&apos;s safe vibecoding community
-            </m.div>
-
+        <section className="relative flex flex-col items-center py-24 md:py-32">
+          <div className="absolute left-[50%] top-[5%] z-0 h-[70vw] max-h-[800px] w-[70vw] max-w-[800px] -translate-x-1/2 bg-[radial-gradient(circle,var(--color-primary-glow)_0%,transparent_55%)] blur-[120px] pointer-events-none" style={{ animation: 'glow-pulse 4s ease-in-out infinite alternate' }} />
+          <div className="container relative z-10 flex w-full flex-col items-center text-center">
+            
             <m.h1
-              className={styles.heroTitle}
+              className="mb-6 text-[clamp(2rem,8vw,3.75rem)] font-semibold leading-[1.05] tracking-tight text-foreground md:text-6xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: EASE_FLUID, delay: 0.1 }}
             >
               Turn your wildest ideas
               <br />
-              into <span className={styles.textHighlight}>real tools.</span>
+              into <span className="bg-gradient-to-br from-primary to-[var(--color-primary-light)] bg-clip-text text-transparent">real tools.</span>
             </m.h1>
 
             <m.div
+              className="mx-auto mb-12 max-w-[660px] px-2 md:px-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <TextReveal
                 text="With expert human mentors and AI by your side — non-technical builders finally ship with confidence."
-                className={styles.heroSubtitle}
+                className="text-lg leading-relaxed text-muted-foreground md:text-xl"
                 delay={300}
               />
             </m.div>
 
             <m.div
-              className={styles.heroCtas}
+              className="mb-16 flex w-full flex-col flex-wrap items-center justify-center gap-4 px-4 md:w-auto md:flex-row md:px-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: EASE_FLUID, delay: 0.3 }}
             >
-              <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/ideas/new" className={styles.ctaPrimary}>
-                  <Lightbulb size={20} weight="duotone" />
-                  Submit Your Idea
-                  <ArrowRight size={16} weight="bold" />
-                </Link>
+              <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }} className="w-full md:w-auto">
+                <Button asChild size="lg" className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-primary to-[var(--color-primary-light)] bg-[size:200%_200%] px-8 text-base font-semibold text-[var(--color-primary-content)] shadow-[0_8px_32px_rgba(255,107,53,0.35)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(255,107,53,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] md:w-auto" style={{ animation: 'shimmer 4s ease infinite' }}>
+                  <Link href="/ideas/new">
+                    <Lightbulb size={20} weight="duotone" />
+                    Submit Your Idea
+                    <ArrowRight size={16} weight="bold" />
+                  </Link>
+                </Button>
               </m.div>
-              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/feed" className={styles.ctaGhost}>
-                  Browse Community Tools
-                </Link>
+              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }} className="w-full md:w-auto">
+                <Button asChild variant="outline" size="lg" className="flex w-full items-center justify-center gap-2 rounded-full border-border bg-transparent px-8 text-base font-medium text-foreground transition-all duration-300 hover:border-[var(--color-border-focus)] hover:bg-[var(--color-surface-2)] md:w-auto">
+                  <Link href="/feed">
+                    Browse Community Tools
+                  </Link>
+                </Button>
               </m.div>
             </m.div>
 
             {/* Simulated Workspace Window */}
             <m.div
-              className={styles.heroVisual}
+              className="w-full max-w-[900px]"
+              style={{ perspective: "1200px" }}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: EASE_FLUID, delay: 0.4 }}
             >
-              <div className={styles.mockupWindow}>
-                <div className={styles.mockupHeader}>
-                  <div className={styles.mockupDots}>
-                    <span /> <span /> <span />
+              <div className="group overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface-glass)] text-left shadow-lg backdrop-blur-[40px] saturate-[150%] transition-transform duration-500 hover:-translate-y-2 hover:rotate-x-0" style={{ transform: "rotateX(2deg) translateY(0)" }}>
+                <div className="relative flex h-12 items-center justify-center border-b border-border bg-[var(--color-surface-2)]">
+                  <div className="absolute left-4 flex gap-2">
+                    <span className="h-3 w-3 rounded-full bg-[var(--color-border-light)]" />
+                    <span className="h-3 w-3 rounded-full bg-[var(--color-border-light)]" />
+                    <span className="h-3 w-3 rounded-full bg-[var(--color-border-light)]" />
                   </div>
-                  <div className={styles.mockupTitle}>buildatool.app / workspace / idea-1024</div>
+                  <div className="font-mono text-xs text-muted-foreground">buildatool.app / workspace / idea-1024</div>
                 </div>
-                <div className={styles.mockupBody}>
-                  <div className={styles.mockupSidebar}>
-                    <div className={styles.mockupStepActive}>
+                <div className="flex h-[340px]">
+                  <div className="hidden w-[200px] flex-col gap-4 border-r border-border bg-[var(--color-surface-3)] p-6 md:flex">
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                       <CheckCircle color="var(--color-primary)" weight="fill" /> Requirements
                     </div>
-                    <div className={styles.mockupStepActive}>
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                       <CheckCircle color="var(--color-primary)" weight="fill" /> MVP Code
                     </div>
-                    <div className={styles.mockupStep}>
-                      <span className={styles.spinner} /> Deployment
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span className="h-3.5 w-3.5 rounded-full border-2 border-[var(--color-border)] border-t-primary" style={{ animation: 'spin-smooth 1s linear infinite' }} /> Deployment
                     </div>
                   </div>
-                  <div className={styles.mockupContent}>
-                    <div className={styles.mockupChat}>
-                      <div className={styles.chatBubbleBot}>
-                        <strong>AI Agent:</strong> I&apos;ve generated the Next.js components for the inventory dashboard.
+                  <div className="flex-1 bg-transparent p-6">
+                    <div className="flex flex-col gap-4">
+                      <div className="max-w-[85%] self-start rounded-lg rounded-bl-sm border border-border bg-[var(--color-surface-2)] p-3 px-4 text-sm text-muted-foreground">
+                        <strong className="text-foreground">AI Agent:</strong> I&apos;ve generated the Next.js components for the inventory dashboard.
                       </div>
-                      <div className={styles.chatBubbleUser}>
-                        <strong>Mentor Aisha:</strong> Good. Now implement the WhatsApp webhooks. Let&apos;s keep latency under 200ms for 3G.
+                      <div className="max-w-[85%] self-end rounded-lg rounded-br-sm border border-[rgba(255,107,53,0.3)] bg-[var(--color-primary-glow)] p-3 px-4 text-sm text-foreground">
+                        <strong className="text-primary">Mentor Aisha:</strong> Good. Now implement the WhatsApp webhooks. Let&apos;s keep latency under 200ms for 3G.
                       </div>
-                      <div className={styles.chatBubbleBot}>
-                        <strong>AI Agent:</strong> Done. Webhooks configured and optimized. Ready to test.
+                      <div className="max-w-[85%] self-start rounded-lg rounded-bl-sm border border-border bg-[var(--color-surface-2)] p-3 px-4 text-sm text-muted-foreground">
+                        <strong className="text-foreground">AI Agent:</strong> Done. Webhooks configured and optimized. Ready to test.
                       </div>
                     </div>
                   </div>
@@ -273,20 +272,20 @@ export default function LandingPage() {
 
         {/* ──── SOCIAL PROOF BAR ──── */}
         <m.section
-          className={styles.statsSection}
+          className="py-12"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
           variants={fadeUp}
           transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
-          <m.div className={`container ${styles.statsBar}`} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+          <m.div className="liquid-glass mx-auto grid w-[calc(100%-2rem)] max-w-[1100px] grid-cols-1 gap-4 px-4 py-6 sm:grid-cols-2 md:grid-cols-4 md:gap-6 md:px-6 md:py-8" variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             {STATS.map((stat, i) => (
-              <m.div key={i} className={styles.statItem} variants={fadeUp} transition={{ duration: 0.5, ease: EASE_FLUID }}>
-                <span className={styles.statValue}>
+              <m.div key={i} className="flex flex-col items-center gap-1 text-center" variants={fadeUp} transition={{ duration: 0.5, ease: EASE_FLUID }}>
+                <span className="text-3xl font-bold leading-none tracking-tight text-foreground md:text-4xl">
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </span>
-                <span className={styles.statLabel}>{stat.label}</span>
+                <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
               </m.div>
             ))}
           </m.div>
@@ -295,7 +294,7 @@ export default function LandingPage() {
         {/* ──── HOW IT WORKS ──── */}
         <m.section
           id="how-it-works"
-          className={styles.howItWorks}
+          className="relative py-32"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -303,31 +302,31 @@ export default function LandingPage() {
           transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
-            <div className={styles.storyHeader}>
-              <h2 className={styles.storyTitle}>Four simple steps. One powerful result.</h2>
-              <p className={styles.storySubtitle}>
+            <div className="mx-auto mb-16 max-w-[640px] text-center">
+              <h2 className="mb-3 text-4xl font-semibold tracking-tight text-foreground">Four simple steps. One powerful result.</h2>
+              <p className="text-lg leading-relaxed text-muted-foreground">
                 No code required. No technical co-founder needed. Just you, your vision, and our platform.
               </p>
             </div>
 
-            <div className={styles.timeline}>
-              <div className={styles.timelineLine}>
-                <div className={styles.timelineGlow} />
+            <div className="relative mx-auto flex max-w-[800px] flex-col gap-12">
+              <div className="absolute bottom-0 left-[24px] top-0 z-0 w-[2px] bg-border md:left-[28px]">
+                <div className="absolute left-[-2px] top-0 h-1/2 w-[6px] rounded-[3px] bg-gradient-to-b from-primary to-transparent blur-[2px]" style={{ animation: 'drop 3s infinite ease-in-out' }} />
               </div>
-              <m.div className={styles.timelineSteps} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+              <m.div className="relative z-10 flex flex-col gap-8" variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
                 {HOW_IT_WORKS_STEPS.map((step, i) => (
                   <m.div
                     key={i}
-                    className={styles.timelineStep}
+                    className="group flex flex-col items-start gap-4 md:flex-row md:gap-8"
                     variants={fadeUp}
                     transition={{ duration: 0.5, ease: EASE_FLUID }}
                   >
-                    <m.div className={styles.timelineIconWrapper} whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-                      <div className={styles.timelineIcon}>{step.icon}</div>
+                    <m.div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-full border-2 border-[var(--color-border-light)] bg-[var(--color-surface-2)] text-primary shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:border-primary group-hover:shadow-[0_0_20px_var(--color-primary-glow)] md:h-[56px] md:w-[56px]" whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
+                      <div>{step.icon}</div>
                     </m.div>
-                    <div className={styles.timelineContent}>
-                      <h3 className={styles.stepTitle}>{step.title}</h3>
-                      <p className={styles.stepDesc}>{step.description}</p>
+                    <div className="flex-1 rounded-xl border border-border bg-[var(--color-surface-1)] p-6 backdrop-blur-[12px] transition-all duration-300 group-hover:translate-x-2 group-hover:border-[var(--color-border-light)] group-hover:bg-[var(--color-surface-glass)]">
+                      <h3 className="mb-2 text-xl font-semibold text-foreground">{step.title}</h3>
+                      <p className="text-base leading-relaxed text-muted-foreground">{step.description}</p>
                     </div>
                   </m.div>
                 ))}
@@ -338,7 +337,7 @@ export default function LandingPage() {
 
         {/* ──── MEET OUR MENTORS ──── */}
         <m.section
-          className={styles.mentorsSection}
+          className="py-32"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -346,37 +345,37 @@ export default function LandingPage() {
           transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
-            <div className={styles.storyHeader}>
-              <h2 className={styles.storyTitle}>Meet the experts in your corner.</h2>
-              <p className={styles.storySubtitle}>
+            <div className="mx-auto mb-16 max-w-[640px] text-center">
+              <h2 className="mb-3 text-4xl font-semibold tracking-tight text-foreground">Meet the experts in your corner.</h2>
+              <p className="text-lg leading-relaxed text-muted-foreground">
                 Elite Nigerian developers who guide your vision from idea to shipped product.
               </p>
             </div>
 
-            <m.div className={styles.mentorsGrid} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <m.div className="grid grid-cols-1 gap-6 md:grid-cols-2" variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               {FEATURED_MENTORS.map((mentor, i) => (
-                <GlowCard key={i} className={styles.mentorCard}>
+                <GlowCard key={i} className="liquid-glass group relative overflow-hidden rounded-2xl p-4 transition-all duration-300 hover:border-[var(--color-border-focus)] hover:shadow-[var(--shadow-md),0_0_40px_var(--color-primary-glow)] md:p-6">
                   <m.div
                     variants={fadeUp}
                     transition={{ duration: 0.5, ease: EASE_FLUID }}
                     whileHover={{ y: -6, transition: { duration: 0.3 } }}
                     whileTap={{ scale: 0.98 }}
-                    style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)", position: "relative", zIndex: 2 }}
+                    style={{ display: "flex", flexDirection: "column", gap: "1rem", position: "relative", zIndex: 2 }}
                   >
-                    <div className={styles.mentorCardTop}>
-                      <div className={styles.mentorAvatar}>{mentor.initials}</div>
-                      <div className={styles.mentorInfo}>
-                        <h4 className={styles.mentorName}>{mentor.name}</h4>
-                        <span className={styles.mentorRole}>{mentor.role}</span>
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-[var(--color-primary-light)] text-lg font-bold text-[var(--color-primary-content)]">{mentor.initials}</div>
+                      <div className="flex flex-col gap-[2px]">
+                        <h4 className="text-lg font-semibold tracking-tight text-foreground">{mentor.name}</h4>
+                        <span className="text-sm font-medium text-[var(--color-primary-light)]">{mentor.role}</span>
                       </div>
                     </div>
-                    <p className={styles.mentorBio}>{mentor.bio}</p>
-                    <div className={styles.mentorStats}>
-                      <span><Star size={14} weight="fill" color="var(--color-gold)" /> {mentor.rating}</span>
-                      <span>{mentor.sessions} sessions</span>
-                      <span className={styles.mentorRate}>{mentor.rate}/hr</span>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{mentor.bio}</p>
+                    <div className="mt-2 flex items-center gap-4 border-t border-border pt-4 font-mono text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1"><Star size={14} weight="fill" color="var(--color-gold)" /> {mentor.rating}</span>
+                      <span className="flex items-center gap-1">{mentor.sessions} sessions</span>
+                      <span className="ml-auto text-sm font-semibold text-foreground">{mentor.rate}/hr</span>
                     </div>
-                    <Link href="/bookings" className={styles.mentorCta}>
+                    <Link href="/bookings" className="flex h-11 items-center justify-center gap-2 rounded-full bg-[var(--color-surface-2)] text-sm font-medium text-foreground transition-all duration-200 group-hover:bg-primary group-hover:text-[var(--color-primary-content)]">
                       Book Session <ArrowRight size={14} weight="bold" />
                     </Link>
                   </m.div>
@@ -384,11 +383,13 @@ export default function LandingPage() {
               ))}
             </m.div>
 
-            <div className={styles.mentorsFooter}>
+            <div className="mt-12 flex justify-center">
               <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/mentors" className={styles.ctaGhost}>
-                  View All Mentors <ArrowRight size={14} weight="bold" />
-                </Link>
+                <Button asChild variant="outline" className="flex h-12 items-center gap-2 rounded-full px-6 transition-all duration-300 hover:border-[var(--color-border-focus)] hover:bg-[var(--color-surface-2)]">
+                  <Link href="/mentors">
+                    View All Mentors <ArrowRight size={14} weight="bold" />
+                  </Link>
+                </Button>
               </m.div>
             </div>
           </div>
@@ -396,7 +397,7 @@ export default function LandingPage() {
 
         {/* ──── FEATURED CAROUSEL ──── */}
         <m.section
-          className={styles.featuredSection}
+          className="overflow-hidden py-32"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -404,36 +405,33 @@ export default function LandingPage() {
           transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
-            <div className={styles.storyHeader}>
-              <h2 className={styles.storyTitle}>See what Nigerians are building right now.</h2>
-              <p className={styles.storySubtitle}>
+            <div className="mx-auto mb-16 max-w-[640px] text-center">
+              <h2 className="mb-3 text-4xl font-semibold tracking-tight text-foreground">See what Nigerians are building right now.</h2>
+              <p className="text-lg leading-relaxed text-muted-foreground">
                 Real tools, built by real people, solving real problems — from Lagos to Abuja.
               </p>
             </div>
           </div>
 
-          <div className={styles.carouselWrapper}>
-            <div className={styles.carouselTrack}>
+          <div className="relative left-1/2 w-[100vw] -translate-x-1/2 overflow-hidden before:absolute before:bottom-0 before:left-0 before:top-0 before:z-[2] before:w-[5vw] before:pointer-events-none before:bg-gradient-to-r before:from-[var(--color-bg)] before:to-transparent after:absolute after:bottom-0 after:right-0 after:top-0 after:z-[2] after:w-[5vw] after:pointer-events-none after:bg-gradient-to-l after:from-[var(--color-bg)] after:to-transparent">
+            <div className="carousel-track flex gap-6 pb-12 pt-4">
               {[...FEATURED_TOOLS, ...FEATURED_TOOLS].map((tool, i) => (
-                <m.div
+                <div
                   key={i}
-                  className={styles.toolCard}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.3, ease: EASE_FLUID }}
+                  className="liquid-glass group relative flex w-[280px] shrink-0 cursor-default flex-col rounded-2xl p-6 transition-all duration-300 hover:border-[var(--color-border-focus)] hover:shadow-[var(--shadow-md),0_0_32px_var(--color-primary-glow)] md:w-[320px]"
                 >
-                  <div className={styles.toolHeader}>
-                    <span className={styles.toolCategory}>{tool.category}</span>
-                    <div className={styles.toolLikes}>
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-primary">{tool.category}</span>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
                       <TrendUp weight="bold" /> {tool.likes}
                     </div>
                   </div>
-                  <h4 className={styles.toolName}>{tool.name}</h4>
-                  <p className={styles.toolAuthor}>Idea by {tool.author}</p>
-                  <button className={styles.toolAction}>
+                  <h4 className="mb-1 text-lg font-semibold text-foreground">{tool.name}</h4>
+                  <p className="mb-6 text-sm text-muted-foreground">Idea by {tool.author}</p>
+                  <button className="mt-auto flex h-11 items-center justify-center gap-2 rounded-full bg-[var(--color-surface-2)] text-sm font-medium text-foreground transition-all duration-200 group-hover:bg-foreground group-hover:text-background border-none">
                     <Play weight="fill" /> Preview App
                   </button>
-                </m.div>
+                </div>
               ))}
             </div>
           </div>
@@ -441,7 +439,7 @@ export default function LandingPage() {
 
         {/* ──── TESTIMONIALS ──── */}
         <m.section
-          className={styles.testimonialSection}
+          className="flex justify-center py-32"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -449,29 +447,30 @@ export default function LandingPage() {
           transition={{ duration: 0.6, ease: EASE_FLUID }}
         >
           <div className="container">
-            <div className={styles.storyHeader}>
-              <h2 className={styles.storyTitle}>Builders like you are already winning.</h2>
-              <p className={styles.storySubtitle}>
+            <div className="mx-auto mb-16 max-w-[640px] text-center">
+              <h2 className="mb-3 text-4xl font-semibold tracking-tight text-foreground">Builders like you are already winning.</h2>
+              <p className="text-lg leading-relaxed text-muted-foreground">
                 Don&apos;t take our word for it — hear from the community.
               </p>
             </div>
 
-            <m.div className={styles.testimonialsGrid} variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <m.div className="grid grid-cols-1 gap-6 md:grid-cols-3" variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               {TESTIMONIALS.map((t, i) => (
                 <m.div
                   key={i}
-                  className={styles.testimonialCard}
+                  className="liquid-glass group relative flex flex-col gap-4 rounded-2xl p-8 transition-all duration-300 hover:shadow-[var(--shadow-md),0_0_24px_var(--color-primary-glow)]"
                   variants={fadeUp}
                   transition={{ duration: 0.5, ease: EASE_FLUID }}
                   whileHover={{ y: -4, transition: { duration: 0.3 } }}
                 >
-                  <Quotes size={32} weight="fill" className={styles.testimonialQuoteIcon} />
-                  <p className={styles.testimonialText}>&quot;{t.text}&quot;</p>
-                  <div className={styles.testimonialAuthor}>
-                    <div className={styles.orbAvatar}>{t.initials}</div>
-                    <div className={styles.orbMeta}>
-                      <strong>{t.name}</strong>
-                      <span>{t.role}</span>
+                  <div className="pointer-events-none absolute left-[10%] right-[10%] top-0 h-[1px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.5)] to-transparent" />
+                  <Quotes size={32} weight="fill" className="text-[var(--color-primary-light)] opacity-35" />
+                  <p className="flex-1 text-base italic leading-relaxed text-foreground">&quot;{t.text}&quot;</p>
+                  <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-semibold text-[var(--color-primary-content)]">{t.initials}</div>
+                    <div className="flex flex-col">
+                      <strong className="text-base font-semibold text-foreground">{t.name}</strong>
+                      <span className="text-sm text-muted-foreground">{t.role}</span>
                     </div>
                   </div>
                 </m.div>
@@ -482,44 +481,49 @@ export default function LandingPage() {
 
         {/* ──── FINAL CTA ──── */}
         <m.section
-          className={styles.finalCta}
+          className="relative py-24"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           variants={fadeUp}
           transition={{ duration: 0.7, ease: EASE_FLUID }}
         >
-          <div className={`container ${styles.finalCtaInner}`}>
-            <h2 className={styles.finalCtaTitle}>
+          <div className="container relative overflow-hidden rounded-3xl border border-[var(--color-border-light)] bg-gradient-to-br from-[rgba(255,107,53,0.08)] to-[rgba(255,136,92,0.04)] px-6 py-16 text-center md:px-8">
+            <div className="pointer-events-none absolute left-[50%] top-[-100px] h-[400px] w-[400px] -translate-x-1/2 bg-[radial-gradient(circle,var(--color-primary-glow)_0%,transparent_60%)] blur-[80px]" />
+            <h2 className="relative z-10 mb-4 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
               Ready to turn your idea into reality?
             </h2>
-            <p className={styles.finalCtaSubtitle}>
+            <p className="relative z-10 mx-auto mb-8 max-w-[500px] text-lg text-muted-foreground">
               Join hundreds of Nigerian builders who stopped waiting and started shipping.
             </p>
-            <div className={styles.heroCtas}>
-              <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/ideas/new" className={styles.ctaPrimary}>
-                  <Lightbulb size={20} weight="duotone" />
-                  Start Building Today
-                  <ArrowRight size={16} weight="bold" />
-                </Link>
+            <div className="relative z-10 flex w-full flex-col flex-wrap items-center justify-center gap-4 px-4 md:w-auto md:flex-row md:px-0">
+              <m.div whileHover={{ scale: 1.03, y: -3 }} whileTap={{ scale: 0.97 }} className="w-full md:w-auto">
+                <Button asChild size="lg" className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-primary to-[var(--color-primary-light)] bg-[size:200%_200%] px-8 text-base font-semibold text-[var(--color-primary-content)] shadow-[0_8px_32px_rgba(255,107,53,0.35)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(255,107,53,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] md:w-auto" style={{ animation: 'shimmer 4s ease infinite' }}>
+                  <Link href="/ideas/new">
+                    <Lightbulb size={20} weight="duotone" />
+                    Start Building Today
+                    <ArrowRight size={16} weight="bold" />
+                  </Link>
+                </Button>
               </m.div>
-              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/feed" className={styles.ctaGhost}>
-                  Explore the Community
-                </Link>
+              <m.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.97 }} className="w-full md:w-auto">
+                <Button asChild variant="outline" size="lg" className="flex w-full items-center justify-center gap-2 rounded-full border-border bg-transparent px-8 text-base font-medium text-foreground transition-all duration-300 hover:border-[var(--color-border-focus)] hover:bg-[var(--color-surface-2)] md:w-auto">
+                  <Link href="/feed">
+                    Explore the Community
+                  </Link>
+                </Button>
               </m.div>
             </div>
-            <div className={styles.trustBadges}>
-              <div className={styles.trustBadge}>
+            <div className="relative z-10 mt-8 flex flex-wrap justify-center gap-4 md:gap-8">
+              <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <ShieldCheck size={18} weight="duotone" />
                 Paystack Secured
               </div>
-              <div className={styles.trustBadge}>
+              <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <Users size={18} weight="duotone" />
                 200+ Active Builders
               </div>
-              <div className={styles.trustBadge}>
+              <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <Lightning size={18} weight="duotone" />
                 Ships in Days, Not Months
               </div>

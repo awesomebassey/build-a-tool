@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { MagnifyingGlass, CaretUp, ChatCircle, RocketLaunch, Lightbulb, ShareNetwork, Sparkle, CircleDashed } from "@phosphor-icons/react";
+import { MagnifyingGlass, CaretUp, ChatCircle, RocketLaunch, ShareNetwork, CircleDashed } from "@phosphor-icons/react";
 import Navbar from "@/components/layout/Navbar";
-import styles from "./feed.module.css";
-
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 interface Idea {
     id: number;
     title: string;
@@ -138,10 +138,26 @@ const CATEGORIES = [
 ];
 
 const SORT_OPTIONS = ["Most Votes", "Newest", "Most Comments"];
+import { m, AnimatePresence } from "motion/react";
+import { Card } from "@/components/ui/card";
+
+const container = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+};
 
 export default function FeedPage() {
     const [votedIdeas, setVotedIdeas] = useState<Set<number>>(new Set());
-    const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState("All");
     const [sortBy, setSortBy] = useState("Most Votes");
 
@@ -158,156 +174,208 @@ export default function FeedPage() {
     };
 
     const filteredIdeas = SAMPLE_IDEAS.filter((idea) => {
-        const matchesSearch =
-            idea.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            idea.description.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory =
-            activeCategory === "All" || idea.category === activeCategory;
-        return matchesSearch && matchesCategory;
+        return activeCategory === "All" || idea.category === activeCategory;
     }).sort((a, b) => {
         if (sortBy === "Most Votes") return b.votes - a.votes;
         if (sortBy === "Most Comments") return b.comments - a.comments;
         return 0;
     });
 
-    const getStatusBadge = (status: string) => {
+    const getStatusStyle = (status: string) => {
         switch (status) {
             case "Shipped":
-                return "badge-accent";
+                return "text-emerald-600 border-emerald-200/60 bg-emerald-50 dark:text-emerald-400 dark:border-emerald-800/60 dark:bg-emerald-950/30";
             case "Building":
-                return "badge-warm";
+                return "text-[var(--color-accent-light)] border-[rgba(108,60,225,0.25)] bg-[rgba(108,60,225,0.06)]";
             case "New":
-                return "badge-gold";
+                return "text-[var(--color-gold)] border-[rgba(255,184,0,0.25)] bg-[rgba(255,184,0,0.06)]";
             default:
-                return "badge-primary";
+                return "text-muted-foreground border-[var(--color-border-light)] bg-[var(--color-surface-2)]";
         }
     };
 
     return (
-        <div className={styles.feedPage}>
+        <div className="min-h-screen bg-[var(--color-bg)]">
             <Navbar />
 
-            <div className={`container ${styles.feedContent}`}>
+            <div className="container mx-auto max-w-[850px] px-6 pb-24 pt-[calc(var(--nav-height)+3rem)]">
                 {/* Page Header */}
-                <div className={styles.feedHeader}>
-                    <div>
-                        <h1 className={styles.feedTitle}>
-                            <Sparkle size={28} weight="duotone" className={styles.headerIcon} />
+                <m.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
+                >
+                    <div className="max-w-[500px]">
+                        <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground lg:text-5xl">
                             Idea Feed
                         </h1>
-                        <p className={styles.feedSubtitle}>
+                        <p className="mt-3 text-lg leading-relaxed text-[var(--color-text-secondary)]">
                             Upvote the tools you want built. The community decides what gets built next.
                         </p>
                     </div>
-                    <Link href="/ideas/new" className="btn btn-primary">
-                        Submit Your Idea <RocketLaunch size={16} weight="duotone" />
-                    </Link>
-                </div>
+                    <m.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button asChild size="lg" className="h-14 rounded-2xl px-8 shadow-xl">
+                            <Link href="/ideas/new" className="flex items-center gap-2">
+                                Submit Your Idea <RocketLaunch size={18} weight="duotone" />
+                            </Link>
+                        </Button>
+                    </m.div>
+                </m.div>
 
-                {/* Search + Filter Bar */}
-                <div className={styles.filterBar}>
-                    <div className={styles.searchBox}>
-                        <MagnifyingGlass size={20} className={styles.searchIcon} />
-                        <input
-                            type="text"
-                            className="input"
-                            placeholder="Search ideas..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            id="search-ideas"
-                        />
-                    </div>
-
-                    <div className={styles.filterControls}>
-                        <select
-                            className={`input ${styles.sortSelect}`}
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                            id="sort-ideas"
+                {/* Sort Tabs */}
+                <m.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="mb-8 flex gap-2 overflow-x-auto pb-2"
+                >
+                    {SORT_OPTIONS.map((opt) => (
+                        <button
+                            key={opt}
+                            className={`flex h-11 shrink-0 items-center whitespace-nowrap rounded-2xl border px-6 text-[13px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                                sortBy === opt
+                                    ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-[0_8px_20px_rgba(230,126,34,0.3)]"
+                                    : "border-[var(--color-border-light)] bg-[var(--color-surface-glass)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)] hover:text-foreground"
+                            }`}
+                            onClick={() => setSortBy(opt)}
                         >
-                            {SORT_OPTIONS.map((opt) => (
-                                <option key={opt} value={opt}>
-                                    {opt}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
+                            {opt}
+                        </button>
+                    ))}
+                </m.div>
 
                 {/* Category Tabs */}
-                <div className="tabs">
+                <m.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="mb-12 flex gap-2 overflow-x-auto pb-4"
+                >
                     {CATEGORIES.map((cat) => (
                         <button
                             key={cat}
-                            className={`tab ${activeCategory === cat ? "active" : ""}`}
+                            className={`flex h-11 shrink-0 items-center whitespace-nowrap rounded-2xl border px-6 text-[13px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                                activeCategory === cat
+                                    ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-[0_8px_20px_rgba(230,126,34,0.3)]"
+                                    : "border-[var(--color-border-light)] bg-[var(--color-surface-glass)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)] hover:text-foreground"
+                            }`}
                             onClick={() => setActiveCategory(cat)}
                         >
                             {cat}
                         </button>
                     ))}
-                </div>
+                </m.div>
 
                 {/* Ideas List */}
-                <div className={styles.ideaList}>
+                <m.div 
+                    className="flex flex-col gap-6"
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                >
                     {filteredIdeas.map((idea) => (
-                        <div key={idea.id} className={`card ${styles.ideaCard}`}>
-                            <button
-                                className={`${styles.voteBtn} ${votedIdeas.has(idea.id) ? styles.voteBtnActive : ""}`}
-                                onClick={() => handleVote(idea.id)}
-                                aria-label={`Upvote ${idea.title}`}
-                                id={`vote-${idea.id}`}
-                            >
-                                <CaretUp size={24} weight={votedIdeas.has(idea.id) ? "bold" : "regular"} className={styles.voteArrow} />
-                                <span className={styles.voteCount}>
-                                    {idea.votes + (votedIdeas.has(idea.id) ? 1 : 0)}
-                                </span>
-                            </button>
+                        <m.div key={idea.id} variants={item}>
+                            <Card className="liquid-glass group relative overflow-hidden p-0 transition-all duration-500 hover:shadow-[var(--shadow-md),0_0_40px_var(--color-primary-glow)]">
+                                {/* Hover Glow */}
+                                <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[var(--color-primary-glow)] via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                                
+                                <div className="flex flex-col gap-6 p-6 sm:flex-row sm:p-8">
+                                    <m.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className={`flex h-20 w-16 shrink-0 flex-col items-center justify-center rounded-2xl border transition-all duration-300 ${
+                                            votedIdeas.has(idea.id)
+                                                ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-[0_8px_20px_rgba(230,126,34,0.3)]"
+                                                : "border-[var(--color-border-light)] bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                                        }`}
+                                        onClick={() => handleVote(idea.id)}
+                                        aria-label={`Upvote ${idea.title}`}
+                                        id={`vote-${idea.id}`}
+                                    >
+                                        <CaretUp
+                                            size={28}
+                                            weight={votedIdeas.has(idea.id) ? "bold" : "regular"}
+                                            className={`transition-transform duration-300 ${
+                                                votedIdeas.has(idea.id) ? "-translate-y-1" : "group-hover:-translate-y-1"
+                                            }`}
+                                        />
+                                        <span className="mt-1 font-mono text-base font-bold">
+                                            {idea.votes + (votedIdeas.has(idea.id) ? 1 : 0)}
+                                        </span>
+                                    </m.button>
 
-                            <div className={styles.ideaContent}>
-                                <div className={styles.ideaMeta}>
-                                    <span className={`${styles.statusBadge} ${styles[getStatusBadge(idea.status)]}`}>
-                                        {idea.status === "Shipped" ? (
-                                            <><RocketLaunch size={14} weight="fill" /> Shipped</>
-                                        ) : idea.status === "Building" ? (
-                                            <><CircleDashed size={14} weight="duotone" className="spin" /> Building</>
-                                        ) : idea.status}
-                                    </span>
-                                    <span className={styles.categoryBadge}>{idea.category}</span>
-                                    <span className={styles.timeAgo}>{idea.timeAgo}</span>
-                                </div>
+                                    <div className="min-w-0 flex-1">
+                                        <div className="mb-4 flex flex-wrap items-center gap-3">
+                                            <Badge variant="outline" className={`h-7 gap-1.5 px-3 font-bold uppercase tracking-widest text-[10px] ${getStatusStyle(idea.status)}`}>
+                                                {idea.status === "Shipped" ? (
+                                                    <><RocketLaunch size={14} weight="fill" /> Shipped</>
+                                                ) : idea.status === "Building" ? (
+                                                    <><CircleDashed size={14} weight="bold" className="animate-spin" /> Building</>
+                                                ) : (
+                                                    idea.status
+                                                )}
+                                            </Badge>
+                                            <div className="h-1 w-1 rounded-full bg-[var(--color-border)]" />
+                                            <span className="text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)]">
+                                                {idea.category}
+                                            </span>
+                                            <div className="h-1 w-1 rounded-full bg-[var(--color-border)]" />
+                                            <span className="text-[13px] font-medium text-[var(--color-text-secondary)] opacity-60">{idea.timeAgo}</span>
+                                        </div>
 
-                                <Link href={`/ideas/${idea.id}`} className={styles.ideaLink}>
-                                    <h3 className={styles.ideaTitle}>{idea.title}</h3>
-                                </Link>
-                                <p className={styles.ideaDesc}>{idea.description}</p>
+                                        <Link href={`/ideas/${idea.id}`} className="group/title block">
+                                            <h3 className="mb-3 font-heading text-2xl font-semibold leading-tight tracking-tight text-foreground transition-colors group-hover/title:text-[var(--color-primary)]">
+                                                {idea.title}
+                                            </h3>
+                                        </Link>
+                                        <p className="mb-6 line-clamp-2 text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+                                            {idea.description}
+                                        </p>
 
-                                <div className={styles.ideaFooter}>
-                                    <div className={styles.ideaAuthor}>
-                                        <div className="avatar">{idea.authorInitials}</div>
-                                        <span>{idea.author}</span>
+                                        <div className="flex flex-col gap-6 border-t border-[var(--color-border-light)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-surface-3)] text-xs font-bold uppercase text-foreground shadow-inner">
+                                                    {idea.authorInitials}
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-bold text-foreground">{idea.author}</span>
+                                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Contributor</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <button className="flex h-10 items-center gap-2 rounded-xl bg-[var(--color-surface-2)] px-4 text-[13px] font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-surface-3)] hover:text-foreground">
+                                                    <ChatCircle size={20} weight="duotone" className="text-[var(--color-primary)]" /> {idea.comments}
+                                                </button>
+                                                <button className="flex h-10 items-center gap-2 rounded-xl bg-[var(--color-surface-2)] px-4 text-[13px] font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-surface-3)] hover:text-foreground">
+                                                    <ShareNetwork size={20} weight="duotone" className="text-[var(--color-primary)]" />
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className={styles.ideaActions}>
-                                        <span className={styles.actionItem}><ChatCircle size={18} /> {idea.comments}</span>
-                                        <button className={styles.actionBtn}><ShareNetwork size={18} /> Share</button>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </Card>
+                        </m.div>
                     ))}
 
                     {filteredIdeas.length === 0 && (
-                        <div className={styles.emptyState}>
-                            <MagnifyingGlass size={48} weight="thin" className={styles.emptyIcon} />
-                            <h3 className={styles.emptyTitle}>No ideas found</h3>
-                            <p className={styles.emptyText}>
+                        <m.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="liquid-glass mt-12 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[var(--color-border)] p-20 text-center"
+                        >
+                            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-secondary)]">
+                                <MagnifyingGlass size={40} weight="thin" />
+                            </div>
+                            <h3 className="mb-3 font-heading text-2xl font-semibold text-foreground">No ideas found</h3>
+                            <p className="max-w-[400px] text-lg text-[var(--color-text-secondary)]">
                                 Try a different search or category, or{" "}
-                                <Link href="/ideas/new" className={styles.emptyLink}>
+                                <Link href="/ideas/new" className="font-bold text-[var(--color-primary)] underline decoration-[var(--color-primary)] decoration-2 underline-offset-4 transition-opacity hover:opacity-80">
                                     submit your own idea
                                 </Link>.
                             </p>
-                        </div>
+                        </m.div>
                     )}
-                </div>
+                </m.div>
             </div>
         </div>
     );

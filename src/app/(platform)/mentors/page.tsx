@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { MagnifyingGlass, Star, CheckCircle, ChatCircle, Calendar, Users, RocketLaunch, CaretDown, Pulse } from "@phosphor-icons/react";
+import { Star, CheckCircle, ChatCircle, Calendar, Users, RocketLaunch, Pulse } from "@phosphor-icons/react";
 import Navbar from "@/components/layout/Navbar";
-import styles from "./mentors.module.css";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface Mentor {
     id: number;
@@ -20,6 +21,7 @@ interface Mentor {
     projectsShipped: number;
 }
 
+// ... keeping mentors array exactly as is, it's defined right above the component in the real file but we must include it if we are replacing the whole file content. Wait, my replacement starts from line 1... yes, I must include MENTORS.
 const MENTORS: Mentor[] = [
     {
         id: 1,
@@ -103,8 +105,25 @@ const MENTORS: Mentor[] = [
 
 const SKILL_FILTERS = ["All", "React", "Python", "AI/ML", "Flutter", "UI/UX", "Firebase", "Node.js"];
 
+import { m, AnimatePresence } from "motion/react";
+import { Card } from "@/components/ui/card";
+
+const container = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+};
+
 export default function MentorsPage() {
-    const [searchQuery, setSearchQuery] = useState("");
     const [activeSkill, setActiveSkill] = useState("All");
     const [sortBy, setSortBy] = useState("Rating");
     const [requestedMentors, setRequestedMentors] = useState<Set<number>>(new Set());
@@ -118,13 +137,7 @@ export default function MentorsPage() {
     };
 
     const filtered = MENTORS.filter((m) => {
-        const matchesSearch =
-            m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            m.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            m.skills.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()));
-        const matchesSkill =
-            activeSkill === "All" || m.skills.includes(activeSkill);
-        return matchesSearch && matchesSkill;
+        return activeSkill === "All" || m.skills.includes(activeSkill);
     }).sort((a, b) => {
         const parseRate = (r: string) => parseInt(r.replace(/[^\d]/g, ""));
         if (sortBy === "Price: Low → High") return parseRate(a.hourlyRate) - parseRate(b.hourlyRate);
@@ -134,137 +147,196 @@ export default function MentorsPage() {
     });
 
     return (
-        <div className={styles.page}>
+        <div className="min-h-screen bg-[var(--color-bg)]">
             <Navbar />
 
-            <div className={`container ${styles.content}`}>
-                <div className={styles.header}>
-                    <div>
-                        <h1 className={styles.title}>
-                            Expert Mentors <Users size={32} weight="duotone" className={styles.headerIcon} />
-                        </h1>
-                        <p className={styles.subtitle}>
-                            Real humans who will guide you and the AI to build exactly what you want.
-                        </p>
-                    </div>
-                </div>
+            <div className="container mx-auto px-6 pb-24 pt-[calc(var(--nav-height)+3rem)]">
+                {/* Page Header */}
+                <m.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-16 max-w-[700px]"
+                >
+                    <h1 className="font-heading text-5xl font-semibold tracking-tight text-foreground lg:text-6xl">
+                        Expert Mentors
+                    </h1>
+                    <p className="mt-4 text-xl leading-relaxed text-[var(--color-text-secondary)]">
+                        Real humans who will guide you and the AI to build exactly what you want.
+                    </p>
+                </m.div>
 
                 {/* Stats */}
-                <div className={styles.statsRow}>
-                    <div className={`card ${styles.statCard}`}>
-                        <div className={styles.statValue}>48</div>
-                        <div className={styles.statLabel}>Active Mentors</div>
-                    </div>
-                    <div className={`card ${styles.statCard}`}>
-                        <div className={styles.statValue}>156</div>
-                        <div className={styles.statLabel}>Sessions This Month</div>
-                    </div>
-                    <div className={`card ${styles.statCard}`}>
-                        <div className={styles.statValue}>4.8<Star size={20} weight="fill" className={styles.statIcon} /></div>
-                        <div className={styles.statLabel}>Avg Rating</div>
-                    </div>
-                    <div className={`card ${styles.statCard}`}>
-                        <div className={styles.statValue}>53</div>
-                        <div className={styles.statLabel}>Tools Shipped</div>
-                    </div>
-                </div>
+                <m.div 
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                >
+                    {[
+                        { label: "Active Mentors", value: "48", icon: Users },
+                        { label: "Sessions This Month", value: "156", icon: ChatCircle },
+                        { label: "Avg Rating", value: "4.8", icon: Star, suffix: true },
+                        { label: "Tools Shipped", value: "53", icon: RocketLaunch },
+                    ].map((stat, idx) => (
+                        <m.div key={idx} variants={item}>
+                            <Card className="liquid-glass group flex flex-col justify-center p-8 transition-all duration-500 hover:shadow-[var(--shadow-md),0_0_40px_var(--color-primary-glow)]">
+                                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-surface-2)] text-[var(--color-primary)] transition-colors group-hover:bg-[var(--color-primary)] group-hover:text-white">
+                                    <stat.icon size={20} weight={idx === 2 ? "fill" : "duotone"} />
+                                </div>
+                                <div className="flex items-end gap-1 text-4xl font-bold tracking-tight text-foreground">
+                                    {stat.value}
+                                    {stat.suffix && <Star size={20} weight="fill" className="mb-1 text-[var(--color-primary)]" />}
+                                </div>
+                                <div className="mt-2 text-[13px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-60">
+                                    {stat.label}
+                                </div>
+                            </Card>
+                        </m.div>
+                    ))}
+                </m.div>
 
-                {/* Filters */}
-                <div className={styles.filterBar}>
-                    <div className={styles.searchBox}>
-                        <MagnifyingGlass size={20} className={styles.searchIcon} />
-                        <input
-                            type="text"
-                            className="input"
-                            placeholder="Search mentors by name, role, or skill..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            id="search-mentors"
-                        />
-                    </div>
-                    <div className={styles.selectWrapper}>
-                        <select
-                            className={`input ${styles.sortSelect}`}
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                            id="sort-mentors"
+                {/* Sort Buttons */}
+                <m.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="mb-8 flex gap-2 overflow-x-auto pb-2"
+                >
+                    {[
+                        { value: "Rating", label: "Top Rated" },
+                        { value: "Price: Low → High", label: "Price: Low → High" },
+                        { value: "Price: High → Low", label: "Price: High → Low" },
+                        { value: "Most Sessions", label: "Most Sessions" },
+                    ].map((opt) => (
+                        <button
+                            key={opt.value}
+                            className={`flex h-11 shrink-0 items-center whitespace-nowrap rounded-2xl border px-6 text-[13px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                                sortBy === opt.value
+                                    ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-[0_8px_20px_rgba(230,126,34,0.3)]"
+                                    : "border-[var(--color-border)] bg-[var(--color-surface-glass)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)] hover:text-foreground"
+                            }`}
+                            onClick={() => setSortBy(opt.value)}
                         >
-                            <option value="Rating">Top Rated</option>
-                            <option value="Price: Low → High">Price: Low → High</option>
-                            <option value="Price: High → Low">Price: High → Low</option>
-                            <option value="Most Sessions">Most Sessions</option>
-                        </select>
-                        <CaretDown size={14} weight="bold" className={styles.selectIcon} />
-                    </div>
-                </div>
+                            {opt.label}
+                        </button>
+                    ))}
+                </m.div>
 
-                <div className="tabs">
+                <m.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="mb-12 flex gap-2 overflow-x-auto pb-4"
+                >
                     {SKILL_FILTERS.map((skill) => (
                         <button
                             key={skill}
-                            className={`tab ${activeSkill === skill ? "active" : ""}`}
+                            className={`flex h-11 shrink-0 items-center whitespace-nowrap rounded-2xl border px-6 text-[13px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                                activeSkill === skill
+                                    ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-[0_8px_20px_rgba(230,126,34,0.3)]"
+                                    : "border-[var(--color-border)] bg-[var(--color-surface-glass)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)] hover:text-foreground"
+                            }`}
                             onClick={() => setActiveSkill(skill)}
                         >
                             {skill}
                         </button>
                     ))}
-                </div>
+                </m.div>
 
                 {/* Mentor Grid */}
-                <div className={styles.mentorGrid}>
+                <m.div 
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+                >
                     {filtered.map((mentor) => (
-                        <div key={mentor.id} className={`card ${styles.mentorCard}`}>
-                            <div className={styles.mentorTop}>
-                                <div className="avatar avatar-lg">{mentor.initials}</div>
-                                <div
-                                    className={`${styles.availabilityBadge} ${mentor.availability === "Available" ? styles.badgeAvailable : styles.badgeBusy
-                                        }`}
-                                >
-                                    {mentor.availability === "Available" ? <><Pulse size={12} weight="bold" className="spin" /> Available</> : <><Pulse size={12} weight="bold" /> Busy</>}
+                        <m.div key={mentor.id} variants={item}>
+                            <Card className="liquid-glass group flex h-full flex-col p-0 transition-all duration-500 hover:shadow-[var(--shadow-lg),0_0_40px_var(--color-primary-glow)]">
+                                <div className="p-8">
+                                    <div className="mb-6 flex items-start justify-between">
+                                        <div className="relative">
+                                            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-surface-3)] text-xl font-bold uppercase text-foreground shadow-inner">
+                                                {mentor.initials}
+                                            </div>
+                                            <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-bg)] bg-[var(--color-primary)] text-white shadow-sm">
+                                                <CheckCircle size={14} weight="fill" />
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${
+                                                mentor.availability === "Available" 
+                                                    ? "bg-[rgba(0,165,99,0.1)] text-[var(--color-primary-light)]" 
+                                                    : "bg-[rgba(255,184,0,0.1)] text-[#FFB800]"
+                                            }`}
+                                        >
+                                            <div className={`h-1.5 w-1.5 rounded-full ${mentor.availability === "Available" ? "bg-[var(--color-primary)] animate-pulse" : "bg-[#FFB800]"}`} />
+                                            {mentor.availability}
+                                        </div>
+                                    </div>
+
+                                    <h3 className="font-heading text-2xl font-bold tracking-tight text-foreground">{mentor.name}</h3>
+                                    <p className="mt-1 text-sm font-bold uppercase tracking-widest text-[var(--color-primary)]">{mentor.role}</p>
+                                    <p className="mt-4 text-[15px] leading-relaxed text-[var(--color-text-secondary)] line-clamp-3">{mentor.bio}</p>
+
+                                    <div className="mt-6 flex flex-wrap gap-2">
+                                        {mentor.skills.map((skill) => (
+                                            <Badge key={skill} variant="outline" className="h-auto border-[var(--color-border-light)] bg-[var(--color-surface-2)] py-0.5 px-2.5 font-bold text-[10px] uppercase tracking-wider opacity-80">
+                                                {skill}
+                                            </Badge>
+                                        ))}
+                                    </div>
+
+                                    <div className="mt-8 grid grid-cols-3 gap-4 border-y border-[var(--color-border-light)] py-4 font-mono">
+                                        <div className="flex flex-col">
+                                            <span className="flex items-center gap-1 text-[13px] font-bold text-foreground">
+                                                <Star size={14} weight="fill" className="text-[var(--color-primary)]" /> {mentor.rating}
+                                            </span>
+                                            <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Rating</span>
+                                        </div>
+                                        <div className="flex flex-col border-x border-[var(--color-border-light)] px-4">
+                                            <span className="flex items-center gap-1 text-[13px] font-bold text-foreground">
+                                                <RocketLaunch size={14} weight="duotone" className="text-[var(--color-primary)]" /> {mentor.projectsShipped}
+                                            </span>
+                                            <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Shipped</span>
+                                        </div>
+                                        <div className="flex flex-col items-end">
+                                            <span className="flex items-center gap-1 text-[13px] font-bold text-foreground">
+                                                <ChatCircle size={14} weight="duotone" className="text-[var(--color-primary)]" /> {mentor.sessionsCompleted}
+                                            </span>
+                                            <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] opacity-60">Sessions</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-6 flex items-baseline gap-1">
+                                        <span className="text-3xl font-bold tracking-tight text-foreground">{mentor.hourlyRate}</span>
+                                        <span className="text-sm font-semibold text-[var(--color-text-secondary)] opacity-60">/hour</span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <h3 className={styles.mentorName}>{mentor.name}</h3>
-                            <p className={styles.mentorRole}>{mentor.role}</p>
-                            <p className={styles.mentorBio}>{mentor.bio}</p>
-
-                            <div className={styles.mentorSkills}>
-                                {mentor.skills.map((skill) => (
-                                    <span key={skill} className={styles.skillBadge}>{skill}</span>
-                                ))}
-                            </div>
-
-                            <div className={styles.mentorMeta}>
-                                <span className={styles.metaItem}><Star size={14} weight="fill" /> {mentor.rating}</span>
-                                <span className={styles.metaItem}><RocketLaunch size={14} weight="fill" /> {mentor.projectsShipped} shipped</span>
-                                <span className={styles.metaItem}><ChatCircle size={14} weight="fill" /> {mentor.sessionsCompleted} sessions</span>
-                            </div>
-
-                            <div className={styles.mentorPrice}>
-                                {mentor.hourlyRate}<span className={styles.priceUnit}>/hour</span>
-                            </div>
-
-                            <div className={styles.mentorActions}>
-                                {requestedMentors.has(mentor.id) ? (
-                                    <button className="btn btn-outline" style={{ width: "100%" }} disabled>
-                                        <CheckCircle size={16} weight="bold" /> Request Sent
-                                    </button>
-                                ) : (
-                                    <button
-                                        className="btn btn-primary"
-                                        style={{ width: "100%" }}
-                                        onClick={() => handleRequest(mentor.id)}
-                                    >
-                                        Request Mentor
-                                    </button>
-                                )}
-                                <Link href="/bookings" className="btn btn-outline" style={{ width: "100%" }}>
-                                    <Calendar size={16} weight="bold" /> Book 1:1 Session
-                                </Link>
-                            </div>
-                        </div>
+                                <div className="mt-auto border-t border-[var(--color-border-light)] bg-[var(--color-surface-glass)]/60 p-6 flex flex-col gap-3 rounded-b-2xl">
+                                    {requestedMentors.has(mentor.id) ? (
+                                        <Button variant="outline" className="h-12 w-full cursor-not-allowed border-[var(--color-primary)] text-[var(--color-primary)]" disabled>
+                                            <CheckCircle size={18} weight="bold" /> Request Sent
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            className="h-12 w-full font-bold shadow-lg shadow-[var(--color-primary-glow)]"
+                                            onClick={() => handleRequest(mentor.id)}
+                                        >
+                                            Request Mentor
+                                        </Button>
+                                    )}
+                                    <Button asChild variant="outline" className="h-12 w-full font-bold">
+                                        <Link href="/bookings">
+                                            <Calendar size={18} weight="bold" /> Book 1:1 Session
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </Card>
+                        </m.div>
                     ))}
-                </div>
+                </m.div>
             </div>
         </div>
     );
